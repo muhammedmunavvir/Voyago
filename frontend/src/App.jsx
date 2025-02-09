@@ -1,14 +1,11 @@
+import Allpackages from "./components/packages/Allpackages"
 
-import './App.css'
-import { Login } from './signup/login'
-function App() {
- 
-
+const App = () => {
   return (
-    <>
-     <h1>hellow react</h1>
-    <Login/>
-    </>
+    <div>
+      <Allpackages/>
+    </div>
+  
   )
 }
 
