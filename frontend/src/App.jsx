@@ -1,9 +1,9 @@
-import Allpackages from "./components/packages/Allpackages"
+import { Navbar } from "./pages/Navbar"
 
 const App = () => {
   return (
     <div>
-      <Allpackages/>
+     <Navbar/>
     </div>
   
   )
