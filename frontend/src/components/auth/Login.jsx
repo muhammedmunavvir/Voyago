@@ -20,7 +20,7 @@ export const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
+     await axios.post(
         "http://localhost:9297/api/v1/auth/traveler/login",
         user
       );
@@ -104,7 +104,7 @@ export const Login = () => {
 
         {/* Signup Link */}
         <p className="mt-4 text-center text-white">
-          Don't have an account?{" "}
+          Dont have an account?{" "}
           <NavLink
             to="/signup-traveler"
             className="text-blue-300 hover:underline"

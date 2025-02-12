@@ -1,13 +1,19 @@
+import { Dealsyou } from "./Dealsyou";
+import Footer from "./Footer";
 import { Heropage } from "./Heropage";
+import { Hiddengems } from "./Hiddengems";
 import ImageSlider from "./Landingpage";
-import { Navbar } from "./Navbar";
+
 
 export const Homepage = () => {
   return (
     <div>
-      <Navbar />
+    
       <ImageSlider/>
       <Heropage/>
+      <Dealsyou/>
+      <Hiddengems/>
+      <Footer/>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 export const SignUpfortravelers = () => {
+  const navigate=useNavigate()
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -21,7 +22,14 @@ export const SignUpfortravelers = () => {
 
     
    try {
-      const res=await axios.post("http://localhost:9297/api/v1/auth/traveler/signup",user)
+      await axios.post("http://localhost:9297/api/v1/auth/traveler/signup",user)
+
+      setUser({username: "",
+      email: "",
+      phonenumber: "",
+      password: "",
+      confirmPassword: "",})
+      navigate("/login")
    } catch (error) {
     console.log(error)
    }

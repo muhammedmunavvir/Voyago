@@ -31,8 +31,8 @@ export const Navbar = () => {
 
         {/* Center: Navigation Links (Hidden on Mobile) */}
         <ul className="hidden md:flex space-x-6 text-lg">
-          <li><a href="/" className="hover:text-gray-300">Home</a></li>
-          <li><a href="/packages" className="hover:text-gray-300">Packages</a></li>
+          <li><NavLink to="/" className="hover:text-gray-300">Home</NavLink></li>
+          <li><NavLink to="/allpackages" className="block hover:text-gray-300">Packages</NavLink></li>
           <li><a href="/about" className="hover:text-gray-300">About</a></li>
           <li><a href="/contact" className="hover:text-gray-300">Contact</a></li>
         </ul>
@@ -40,7 +40,7 @@ export const Navbar = () => {
         {/* Sign Up Button with Clickable Dropdown */}
         <div className="relative hidden md:block" ref={dropdownRef}>
           <button 
-            className="flex items-center bg-blue-500 px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-600 transition-all duration-300"
+            className="flex items-center bg-red-500 px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-600 transition-all duration-300"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Click to toggle
           >
             Sign Up <ChevronDown className="ml-2 w-5 h-5" />
@@ -66,7 +66,7 @@ export const Navbar = () => {
       {isOpen && (
         <ul className="md:hidden bg-slate-800 text-white space-y-4 p-4">
           <li><a href="/" className="block hover:text-gray-300">Home</a></li>
-          <li><a href="/packages" className="block hover:text-gray-300">Packages</a></li>
+          <li><NavLink to="/allpackages" className="block hover:text-gray-300">Packages</NavLink></li>
           <li><a href="/about" className="block hover:text-gray-300">About</a></li>
           <li><a href="/contact" className="block hover:text-gray-300">Contact</a></li>
         </ul>
