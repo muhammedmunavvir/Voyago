@@ -50,7 +50,7 @@ export const Navbar = () => {
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 shadow-lg rounded-lg z-50">
                <NavLink to="/signup-traveler" className="block px-4 py-2 hover:bg-gray-200">Be a Traveler</NavLink>
-              <NavLink to="/signup-packager" className="block px-4 py-2 hover:bg-gray-200">Be a Packager</NavLink>
+              <NavLink to="/packager-info" className="block px-4 py-2 hover:bg-gray-200">Be a Packager</NavLink>
              
             </div>
           )}
