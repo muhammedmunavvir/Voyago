@@ -3,7 +3,12 @@ const app = express();
 import { dbconnection } from "./src/config/db.js";
 import routes from "./src/router/app.js";
 import cors from "cors"
-app.use(cors())
+import cookieParser from "cookie-parser";
+app.use(cookieParser())
+app.use(cors({
+  origin:" http://localhost:5173",
+  credentials:true
+}))
 app.use(express.json())
 app.use("/api/v1", routes);
 

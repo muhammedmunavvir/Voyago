@@ -45,7 +45,7 @@ export const packagersignupcontroller = async (req, res) => {
   try {
     const { error } = joivalidationpackagers.validate(req.body);
     if (error) {
-      console.log(error.details)
+      console.log(error.details);
       return res
         .status(400)
         .json({ status: "fail", message: "validation error" });
@@ -112,12 +112,14 @@ export const travlerlogincontroller = async (req, res) => {
     }
 
     const token = jwt.sign({ user }, "secretekey", { expiresIn: "1h" });
-    res.cookie(
-      "token",
-      { token, role: user.role },
-      { httpOnly: true, secure: true, sameSite: "none" }
-    );
-    console.log(req.cookie);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+    
+
+    
     return res
       .status(200)
       .json({ status: "success", message: "login successfully", data: user });

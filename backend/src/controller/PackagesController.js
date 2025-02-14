@@ -2,7 +2,7 @@ import { packagemodel } from "../models/packagescheama.js";
 export const PackagesController = async (req, res) => {
   try {
     const packages = await packagemodel.find();
-    console.log(packages);
+   
     res
       .status(201)
       .json({ status: "success", message: "allpackages", data: packages });

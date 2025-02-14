@@ -2,15 +2,15 @@ import axios from "axios";
 import { API_URL } from "../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import {ThreeDot} from "react-loading-indicators"
+import { ThreeDot } from "react-loading-indicators";
 export const Allpackages = () => {
   const navigate = useNavigate();
 
   const fetchPackages = async () => {
     try {
-        await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const res = await axios.get(`${API_URL}/api/v1/packages/allpackages`);
-      console.log(res);
+
       return res.data.data;
     } catch (error) {
       console.log(error);
@@ -25,17 +25,14 @@ export const Allpackages = () => {
   } = useQuery({
     queryKey: ["allpackages"],
     queryFn: fetchPackages,
-  
   });
-
-  console.log(packages._id);
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         {/* <p className="text-xl font-semibold animate-pulse"> */}
-          {/* Loading packages... */}
-          <ThreeDot color="#2f482f" size="medium" text="" textColor="black" />
+        {/* Loading packages... */}
+        <ThreeDot color="#2f482f" size="medium" text="" textColor="black" />
         {/* </p> */}
       </div>
     );
@@ -52,7 +49,6 @@ export const Allpackages = () => {
   }
 
   const toproductdetailpage = (id) => {
-    console.log(id);
     navigate(`/packagedetailpage/${id}`);
   };
 

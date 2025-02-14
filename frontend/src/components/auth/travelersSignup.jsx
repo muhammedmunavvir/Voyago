@@ -31,6 +31,8 @@ export const SignUpfortravelers = () => {
         password: "",
         confirmPassword: "",
       });
+
+      
       navigate("/login");
     } catch (error) {
       console.log(error);

@@ -2,13 +2,18 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../conf/APiconfi";
+import toast from "react-hot-toast";
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "http://localhost:5173";
 
 export const Login = () => {
-  const nav=useNavigate()
+  const nav = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
-    password:"",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -20,20 +25,26 @@ export const Login = () => {
     e.preventDefault();
 
     try {
-     await axios.post(
-        "http://localhost:9297/api/v1/auth/traveler/login",
-        user
+    const res=  await axios.post(
+        `${API_URL}/api/v1/auth/traveler/login`,
+        user,
+        { withCredentials: true }
       );
-      
+    const userDetails=res.data.data
+      console.log(userDetails)
+      localStorage.setItem("userid",userDetails._id)
+      localStorage.setItem("username",userDetails.username)
+      localStorage.setItem("userrole",userDetails.role)
       setUser({
         email: "",
         password: "",
       });
-      nav("/")
+
+  toast.success("login successfully")
+      nav("/");
     } catch (error) {
       console.log(error);
     }
-    
   };
 
   return (
