@@ -1,3 +1,4 @@
+
 import { Dealsyou } from "./Dealsyou";
 import Footer from "./Footer";
 import { Heropage } from "./Heropage";
@@ -12,7 +13,7 @@ export const Homepage = () => {
       <ImageSlider/>
       <Heropage/>
       <Dealsyou/>
-      <Hiddengems/>
+      <Hiddengems/> 
       <Footer/>
     </div>
   );

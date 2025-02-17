@@ -18,7 +18,7 @@ export const PackagerInfo = () => {
           <li>Get bookings from travelers.</li>
           <li>Earn revenue from each package sold.</li>
         </ul>
-      </div>
+      </div>  
 
       <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-gray-800">Why Become a Packager?</h2>
@@ -34,7 +34,7 @@ export const PackagerInfo = () => {
         <button onClick={() => navigate("/signup-packager")} className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700">
           Get Started as a Packager
         </button>
-        <button onClick={() => navigate(-1)} className="text-gray-500 hover:text-gray-700">
+        <button onClick={() => navigate(-1)} className=" bg-red-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700 ">
           Go Back
         </button>
       </div>

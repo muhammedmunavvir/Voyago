@@ -26,7 +26,7 @@ export const SignUpForPackagers = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/api/v1/auth/packager/signup`,packager);
+      await axios.post(`${API_URL}/api/v1/auth/packager/signup`, packager);
       setPackager({
         businessName: "",
         ownerName: "",
@@ -34,7 +34,7 @@ export const SignUpForPackagers = () => {
         phoneNumber: "",
         password: "",
         confirmPassword: "",
-        licenseNumber: "" ,
+        licenseNumber: "",
         address: "",
         website: "",
       });
@@ -46,10 +46,10 @@ export const SignUpForPackagers = () => {
 
   return (
     <div
-      className="relative flex items-center min-h-screen px-10 bg-cover bg-center"
+      className="relative flex items-center justify-center min-h-screen px-10 bg-cover bg-center"
       style={{
         backgroundImage:
-          "url('https://images.pexels.com/photos/7536264/pexels-photo-7536264.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+          "url('https://img.lovepik.com/element/45006/9430.png_860.png')",
       }}
     >
       <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -62,24 +62,105 @@ export const SignUpForPackagers = () => {
         />
       </div>
 
-      <div className="relative w-full max-w-md p-6 bg-white bg-opacity-20 backdrop-blur-md shadow-lg rounded-xl">
-        <h2 className="text-2xl font-bold text-center text-white">Sign Up as a Packager</h2>
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-          <input type="text" name="businessName" value={packager.businessName} onChange={handleChange} className="input-field" placeholder="Business Name" required />
-          <input type="text" name="ownerName" value={packager.ownerName} onChange={handleChange} className="input-field" placeholder="Owner's Name" required />
-          <input type="email" name="email" value={packager.email} onChange={handleChange} className="input-field" placeholder="Email" required />
-          <input type="text" name="phoneNumber" value={packager.phoneNumber} onChange={handleChange} className="input-field" placeholder="Phone Number" required />
-          <input type="password" name="password" value={packager.password} onChange={handleChange} className="input-field" placeholder="Password" required />
-          <input type="password" name="confirmPassword" value={packager.confirmPassword} onChange={handleChange} className="input-field" placeholder="Confirm Password" required />
-          <input type="text" name="licenseNumber" value={packager.licenseNumber} onChange={handleChange} className="input-field" placeholder="Business License Number" required />
-          <input type="text" name="address" value={packager.address} onChange={handleChange} className="input-field" placeholder="Business Address" required />
-          <input type="url" name="website" value={packager.website} onChange={handleChange} className="input-field" placeholder="Website (Optional)" />
+      <div className="relative w-full max-w-2xl p-6 bg-white bg-opacity-20 backdrop-blur-md shadow-lg rounded-xl">
+        <h2 className="text-2xl font-bold text-center text-white">
+          Sign Up as a Packager
+        </h2>
+        <form onSubmit={handleSubmit} className="mt-4 grid grid-cols-2 gap-4">
+          <input
+            type="text"
+            name="businessName"
+            value={packager.businessName}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Business Name"
+            required
+          />
+          <input
+            type="text"
+            name="ownerName"
+            value={packager.ownerName}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Owner's Name"
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            value={packager.email}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Email"
+            required
+          />
+          <input
+            type="text"
+            name="phoneNumber"
+            value={packager.phoneNumber}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Phone Number"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={packager.password}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Password"
+            required
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            value={packager.confirmPassword}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Confirm Password"
+            required
+          />
+          <input
+            type="text"
+            name="licenseNumber"
+            value={packager.licenseNumber}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Business License Number"
+            required
+          />
+          <input
+            type="text"
+            name="address"
+            value={packager.address}
+            onChange={handleChange}
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Business Address"
+            required
+          />
+          <input
+            type="url"
+            name="website"
+            value={packager.website}
+            onChange={handleChange}
+            className="col-span-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
+            placeholder="Website (Optional)"
+          />
 
-          <button type="submit" className="w-full py-2 text-lg font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 transition-all">Sign Up</button>
+          <button
+            type="submit"
+            className="col-span-2 w-full py-2 text-lg font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 transition-all"
+          >
+            Sign Up
+          </button>
         </form>
 
         <p className="mt-4 text-center text-white">
-          Already have an account? <NavLink to="/login" className="text-blue-300 hover:underline">Login</NavLink>
+          Already have an account?{" "}
+          <NavLink to="/login" className="text-blue-300 hover:underline">
+            Login
+          </NavLink>
         </p>
       </div>
     </div>
