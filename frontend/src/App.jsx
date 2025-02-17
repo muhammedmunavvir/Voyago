@@ -8,6 +8,7 @@ import { Packagedetails } from "./pages/Packagedetails";
 import { PackagerInfo } from "./Home/Packagerinfo";
 import { SignUpForPackagers } from "./components/auth/PackagersSign";
 import NotFound from "./pages/Notfound";
+
 const App = () => {
   return (
     <div>
@@ -24,7 +25,7 @@ const App = () => {
         <Route path="/packagedetailpage/:id" element={<Packagedetails />} />
       </Routes>
 
-      
+     
     </div>
   );
 };

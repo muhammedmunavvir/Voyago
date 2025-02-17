@@ -28,7 +28,7 @@ export const Allpackages = () => {
   
   });
 
-  console.log(packages._id);
+ 
 
   if (isLoading) {
     return (

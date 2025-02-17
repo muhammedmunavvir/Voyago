@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../conf/APiconfi";
 import toast from "react-hot-toast";
 
+
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:5173";
 
@@ -61,7 +62,7 @@ export const Login = () => {
       {/* Company Logo on Right */}
       <div className="absolute top-6 right-10">
         <img
-          src="/your-logo.png" // Replace with actual logo path
+          src=".../.../" // Replace with actual logo path
           alt="Voyago Logo"
           className="w-32 h-auto md:w-40 lg:w-48"
         />

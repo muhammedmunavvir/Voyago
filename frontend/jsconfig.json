@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./", // Ensure this is set to your project root
+      "paths": {
+        "/*": ["src/*"]
+      }
+    }
+  }
+  
