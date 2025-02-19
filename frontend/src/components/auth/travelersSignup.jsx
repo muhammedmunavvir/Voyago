@@ -6,7 +6,7 @@ import { API_URL } from "../../conf/APiconfi";
 import toast from "react-hot-toast";
 export const SignUpfortravelers = () => {
   const navigate = useNavigate();
-  const [errorMessage,setErrorMessage]=useState()
+  const [errorMessage, setErrorMessage] = useState();
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -24,7 +24,7 @@ export const SignUpfortravelers = () => {
     e.preventDefault();
 
     try {
-      await axios.post(`${API_URL}/api/v1/auth/traveler/signup`, user);
+      await axios.post(`${API_URL}/auth/traveler/signup`, user);
 
       setUser({
         username: "",
@@ -33,7 +33,7 @@ export const SignUpfortravelers = () => {
         password: "",
         confirmPassword: "",
       });
-     toast.success("sign up successfull")
+      toast.success("sign up successfull");
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -57,7 +57,6 @@ export const SignUpfortravelers = () => {
           "url('https://images.pexels.com/photos/7276634/pexels-photo-7276634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
       }}
     >
-    
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       <div className="absolute top-6 right-10">
@@ -134,8 +133,8 @@ export const SignUpfortravelers = () => {
             />
           </div>
           {errorMessage ? (
-  <p className="text-red-500 text-sm text-center">{errorMessage}</p>
-) : null}
+            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+          ) : null}
           <button
             type="submit"
             className="w-full py-2 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all"

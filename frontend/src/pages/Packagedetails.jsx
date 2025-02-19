@@ -7,13 +7,13 @@ import { FaStar, FaMapMarkerAlt, FaBed, FaUtensils, FaBus, FaWhatsapp, FaEnvelop
 import { motion } from "framer-motion";
 
 export const Packagedetails = () => {
-  const navigate=useNavigate()
+  const Navigate=useNavigate()
   const { id } = useParams();
 
   const fetchbyid = async () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000)); 
-      const res = await axios.get(`${API_URL}/api/v1/packages/singlepackage/${id}`);
+      const res = await axios.get(`${API_URL}/packages/singlepackage/${id}`);
       return res.data.data;
     } catch (error) {
       console.error(error);
@@ -44,9 +44,8 @@ export const Packagedetails = () => {
     );
   }
 
-  //for booking
-  const tobookingform=(id)=>{
-    navigate(`/bookingform${id}`)
+  const tobooking=(id)=>{
+    Navigate(`/bookingpage/${id}`)
   }
 
   return (
@@ -155,7 +154,6 @@ export const Packagedetails = () => {
             <li key={index}>{highlight}</li>
           ))}
         </ul>
-      
       </div>
 
        {/* Floating Inquiry Buttons */}
@@ -177,8 +175,9 @@ export const Packagedetails = () => {
         >
           <FaEnvelope className="text-2xl" />
         </button>
+
       </div>
-      <button onClick={()=>tobookingform(item._id)} className=" ml-[62em] mt-5  bg-yellow-500 rounded-lg g-p-md-5">book now</button>
+      <button onClick={()=>tobooking(item._id)}>Book now</button>
     </motion.div>
   );
 };

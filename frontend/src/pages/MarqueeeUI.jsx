@@ -1,24 +1,24 @@
 import PropTypes from "prop-types";
 import { cn } from "../lib/utils";
-import Marquee from "./marquee";
+// import Marquee from "./marquee";
+import Marquee from "../components/ui/marquee";
 import { API_URL } from "../conf/APiconfi";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 const fetchPackages = async () => {
-  
   try {
     await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating loading delay
-    const res = await axios.get(`${API_URL}/api/v1/packages/allpackages`);
-    return res.data.data; // Returning the fetched data
+    const res = await axios.get(`${API_URL}/packages/allpackages`);
+    return res.data.data; 
   } catch (error) {
     console.log(error);
-    throw error; // Throwing error to be handled by useQuery
+    throw error; 
   }
 };
 
-const ReviewCard = ({ img, name, }) => {
+const ReviewCard = ({ img, name }) => {
   return (
     <div className="relative">
       <figure
@@ -39,7 +39,9 @@ const ReviewCard = ({ img, name, }) => {
       <blockquote className="mt-2 text-sm">{body}</blockquote> */}
         </div>
       </figure>
-      <div className="max-w-[250px] absolute text-white text-[14px] bottom-[10px] px-[10px]">{name}</div>
+      <div className="max-w-[250px] absolute text-white text-[14px] bottom-[10px] px-[10px]">
+        {name}
+      </div>
     </div>
   );
 };
@@ -53,7 +55,7 @@ ReviewCard.propTypes = {
 
 export const MarqueeDemohorizently = () => {
   // Fetching data using the useQuery hook
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const {
     data: packages,
     isLoading,
@@ -66,16 +68,15 @@ export const MarqueeDemohorizently = () => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching packages</div>;
 
-  
   const toProductDetailPage = (id) => {
     navigate(`/packagedetailpage/${id}`);
-  }
+  };
 
   return (
     <>
-    <div className="mb-[20px]">
+      <div className="mb-[20px]">
         <h1 className="text-2xl md:text-3xl font-bold text-left ml-[60px] ">
-         Seasonal  Journeys
+          Seasonal Journeys
         </h1>
         <p className="text-lg md:text-[15px] text-left ml-[60px]">
           Discover breathtaking locations and unforgettable experiences.
@@ -87,11 +88,11 @@ export const MarqueeDemohorizently = () => {
             {packages.slice(0, packages.length / 2).map((pkg) => (
               <ReviewCard
                 key={pkg?._id}
-                img={pkg?.coverimage} 
+                img={pkg?.coverimage}
                 name={pkg?.title}
                 username={pkg?.username}
                 body={pkg?.heading}
-                onclick={()=>toProductDetailPage(pkg._id)}
+                onclick={() => toProductDetailPage(pkg._id)}
               />
             ))}
           </div>

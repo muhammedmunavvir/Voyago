@@ -28,7 +28,7 @@ export const SignUpForPackagers = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/api/v1/auth/packager/signup`, packager);
+      await axios.post(`${API_URL}/auth/packager/signup`, packager);
       setPackager({
         businessName: "",
         ownerName: "",
@@ -40,7 +40,7 @@ export const SignUpForPackagers = () => {
         address: "",
         website: "",
       });
-      toast.success("sign up successfull")
+      toast.success("sign up successfull");
       navigate("/login");
     } catch (error) {
       console.log(error, "from backend");
@@ -159,7 +159,6 @@ export const SignUpForPackagers = () => {
             className="col-span-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
             placeholder="Website (Optional)"
           />
-         
 
           <button
             type="submit"
@@ -169,8 +168,8 @@ export const SignUpForPackagers = () => {
           </button>
         </form>
         {errorMessage && (
-            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
-          )}
+          <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+        )}
 
         <p className="mt-4 text-center text-white">
           Already have an account?{" "}

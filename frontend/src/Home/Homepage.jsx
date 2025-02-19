@@ -5,7 +5,7 @@ import Footer from "./Footer";
 // import { Heropage } from "./Heropage";
 import { Hiddengems } from "./Hiddengems";
 import ImageSlider from "./Landingpage";
-import { MarqueeDemohorizently } from "../pages/ui";
+import { MarqueeDemohorizently } from "../pages/MarqueeeUI";
 import { Heropage } from "./Heropage";
 
 

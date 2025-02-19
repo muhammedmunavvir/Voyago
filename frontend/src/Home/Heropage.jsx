@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { API_URL } from "../conf/APiconfi";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { ShinyButton } from "../components/magicui/shiny-button";
 export const Heropage = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const fetchPackages = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/v1/packages/allpackages`);
+      const res = await axios.get(`${API_URL}/packages/allpackages`);
       return res.data.data.slice(0, 5);
     } catch (error) {
       console.log(error);
@@ -56,7 +56,7 @@ export const Heropage = () => {
             <div
               key={index}
               className="bg-white text-gray-900 p-1 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-              onClick={()=>toproductdetailpage(destination._id)}
+              onClick={() => toproductdetailpage(destination._id)}
             >
               <img
                 src={destination.coverimage}
@@ -69,16 +69,13 @@ export const Heropage = () => {
           ))}
         </div>
 
-     {/* statc two icon */}
+        {/* statc two icon */}
         <div className="fixed bottom-4 right-4 flex items-center gap-4">
-          <div className="bg-white rounded-full shadow-lg p-4 flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white">
-              EVA
-            </div>
-            <div className="bg-blue-100 px-3 py-1 rounded-full text-blue-600 text-sm">
+          <ShinyButton className="!bg-white rounded-full shadow-lg p-4 flex items-center gap-2 dark:bg-blue-800">
+            <div className="bg-blue-100 px-3 py-1 rounded-full text-blue-600 font-medium dark:bg-blue-900 dark:text-blue-300">
               Chat with me
             </div>
-          </div>
+          </ShinyButton>
 
           <button className="bg-red-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors">
             Plan Your Trip

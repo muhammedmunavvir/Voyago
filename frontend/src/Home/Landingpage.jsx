@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { ShimmerButton } from "../components/magicui/shimmer-button";
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -26,12 +26,13 @@ const ImageSlider = () => {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, );
+  });
 
   return (
     <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
       {/* Image Slider */}
-      <div className="absolute inset-0 w-full h-full flex transition-transform duration-1000 ease-in-out"
+      <div
+        className="absolute inset-0 w-full h-full flex transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {images.map((image, index) => (
@@ -52,10 +53,12 @@ const ImageSlider = () => {
           Discover Your Next Adventure
         </h1>
         <p className="text-lg md:text-xl mb-6 max-w-2xl mx-auto">
-          Experience breathtaking destinations and create unforgettable memories.
+          Experience breathtaking destinations and create unforgettable
+          memories.
         </p>
-        
+
         {/* Search Bar */}
+
         <div className="bg-white text-gray-800 p-2 rounded-full flex items-center max-w-lg mx-auto mt-5 shadow-lg">
           <input
             type="text"
@@ -66,10 +69,10 @@ const ImageSlider = () => {
             Search
           </button>
         </div>
-        
-        <button  className="bg-white text-gray-900 mt-2 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
+
+        <ShimmerButton className="bg-white text-gray-900 ml-96 mt-2 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
           Start Exploring
-        </button>
+        </ShimmerButton>
       </div>
 
       {/* Navigation Dots */}

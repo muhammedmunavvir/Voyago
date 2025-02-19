@@ -25,14 +25,11 @@ export const Login = () => {
     setErrorMessage("");
 
     try {
-      const res = await axios.post(
-        `${API_URL}/api/v1/auth/traveler/login`,
-        user,
-        { withCredentials: true }
-      );
+      const res = await axios.post(`${API_URL}/auth/traveler/login`, user, {
+        withCredentials: true,
+      });
 
       const userDetails = res.data.data;
-      
 
       localStorage.setItem("userid", userDetails._id);
       localStorage.setItem("username", userDetails.username);
@@ -68,15 +65,14 @@ export const Login = () => {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
-   {/* Company Logo on Right */}
-<div className="absolute top[999px] right-[100px] opacity-45 ">
-  <img
-    src="https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png"
-    alt="Voyago Logo"
-    className="w-85em h-80"
-   
-  />
-</div>
+      {/* Company Logo on Right */}
+      <div className="absolute top[999px] right-[100px] opacity-45 ">
+        <img
+          src="https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png"
+          alt="Voyago Logo"
+          className="w-85em h-80"
+        />
+      </div>
 
       <div className="relative w-full max-w-sm p-6 bg-white bg-opacity-20 backdrop-blur-md shadow-lg rounded-xl">
         <h2 className="text-2xl font-bold text-center text-white">Login</h2>

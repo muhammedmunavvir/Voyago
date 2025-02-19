@@ -25,7 +25,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     const notify = toast.loading("Logging out...");
-    await axios.post(`${API_URL}/api/v1/auth/users/logout`);
+    await axios.post(`${API_URL}/auth/users/logout`);
     setTimeout(() => {
       localStorage.clear();
 

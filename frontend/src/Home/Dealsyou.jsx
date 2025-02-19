@@ -17,7 +17,7 @@ export const Dealsyou = () => {
 
   const fetchPackages = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/v1/packages/allpackages`);
+      const res = await axios.get(`${API_URL}/packages/allpackages`);
       return res.data.data.slice(0, 6);
     } catch (error) {
       console.log(error);
