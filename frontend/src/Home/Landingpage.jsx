@@ -26,10 +26,10 @@ const ImageSlider = () => {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, );
 
   return (
-    <section className="relative w-full h-[50vh] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
       {/* Image Slider */}
       <div className="absolute inset-0 w-full h-full flex transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -67,7 +67,7 @@ const ImageSlider = () => {
           </button>
         </div>
         
-        <button className="bg-white text-gray-900 mt-2 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
+        <button  className="bg-white text-gray-900 mt-2 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
           Start Exploring
         </button>
       </div>

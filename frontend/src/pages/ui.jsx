@@ -1,56 +1,46 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { cn } from "../lib/utils";
-import Marquee from './marquee';
+import Marquee from "./marquee";
+import { API_URL } from "../conf/APiconfi";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-const reviews = [
-  {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "https://avatar.vercel.sh/jack",
-  },
-  {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "https://avatar.vercel.sh/jill",
-  },
-  {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://avatar.vercel.sh/john",
-  },
-];
+const fetchPackages = async () => {
+  
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating loading delay
+    const res = await axios.get(`${API_URL}/api/v1/packages/allpackages`);
+    return res.data.data; // Returning the fetched data
+  } catch (error) {
+    console.log(error);
+    throw error; // Throwing error to be handled by useQuery
+  }
+};
 
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
-
-const ReviewCard = ({
-  img,
-  name,
-  username,
-  body,
-}) => {
+const ReviewCard = ({ img, name, }) => {
   return (
-    <figure
-      className={cn(
-        "relative h-full w-36 cursor-pointer overflow-hidden rounded-xl border p-4",
-        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
-      )}
-    >
-      <div className="flex flex-row items-center gap-2">
-        <img className="rounded-full" width="32" height="32" alt="" src={img} />
-        <div className="flex flex-col">
-          <figcaption className="text-sm font-medium dark:text-white">
-            {name}
-          </figcaption>
+    <div className="relative">
+      <figure
+        className={cn(
+          "",
+          "flex-shrink-0" // Prevents the card from shrinking when in the scroll
+        )}
+      >
+        <div className="w-[250px] h-[250px] rounded-[15px] overflow-hidden mr-3">
+          <div className="w-full h-full">
+            <img className="w-full h-full" alt="" src={img} />
+          </div>
+          {/* <div className="flex flex-col">
+          <figcaption className="text-sm font-medium dark:text-white">{name}</figcaption>
           <p className="text-xs font-medium dark:text-white/40">{username}</p>
         </div>
       </div>
-      <blockquote className="mt-2 text-sm">{body}</blockquote>
-    </figure>
+      <blockquote className="mt-2 text-sm">{body}</blockquote> */}
+        </div>
+      </figure>
+      <div className="max-w-[250px] absolute text-white text-[14px] bottom-[10px] px-[10px]">{name}</div>
+    </div>
   );
 };
 
@@ -61,23 +51,66 @@ ReviewCard.propTypes = {
   body: PropTypes.string.isRequired,
 };
 
-export const MarqueeDemoVertical = () => {
+export const MarqueeDemohorizently = () => {
+  // Fetching data using the useQuery hook
+  const navigate=useNavigate()
+  const {
+    data: packages,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["allpackages"],
+    queryFn: fetchPackages,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching packages</div>;
+
+  
+  const toProductDetailPage = (id) => {
+    navigate(`/packagedetailpage/${id}`);
+  }
+
   return (
-    <div className="relative flex h-[500px] w-full flex-row items-center justify-center overflow-hidden">
-      <Marquee pauseOnHover vertical className="[--duration:20s]">
-        {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
-      <Marquee reverse pauseOnHover vertical className="[--duration:20s]">
-        {secondRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
-    </div>
+    <>
+    <div className="mb-[20px]">
+        <h1 className="text-2xl md:text-3xl font-bold text-left ml-[60px] ">
+         Seasonal  Journeys
+        </h1>
+        <p className="text-lg md:text-[15px] text-left ml-[60px]">
+          Discover breathtaking locations and unforgettable experiences.
+        </p>
+      </div>
+      <div className="relative flex w-full items-center justify-center overflow-hidden">
+        <Marquee pauseOnHover className="[--duration:20s]">
+          <div className="flex flex-row gap-4">
+            {packages.slice(0, packages.length / 2).map((pkg) => (
+              <ReviewCard
+                key={pkg?._id}
+                img={pkg?.coverimage} 
+                name={pkg?.title}
+                username={pkg?.username}
+                body={pkg?.heading}
+                onclick={()=>toProductDetailPage(pkg._id)}
+              />
+            ))}
+          </div>
+        </Marquee>
+        {/* <Marquee reverse pauseOnHover className="[--duration:20s]">
+        <div className="flex flex-row gap-4">
+          {packages.slice(packages.length / 2).map((pkg) => (
+            <ReviewCard
+              key={pkg.username}
+              img={pkg.coverimage}
+              name={pkg.name}
+              username={pkg.username}
+              body={pkg.description}
+            />
+          ))}
+        </div>
+      </Marquee> */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+      </div>
+    </>
   );
 };
-
-// export default MarqueeDemoVertical;

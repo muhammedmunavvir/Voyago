@@ -5,9 +5,9 @@ export const Hiddengems = () => {
         <h2 className="text-3xl font-bold text-gray-800 mb-4">Hidden Gems</h2>
   
         {/* Video Container (Wider) */}
-        <div className="w-full max-w-4xl"> {/* Increased width */}
+        <div className="w-full"> {/* Increased width */}
           <video
-            className="w-full rounded-xl shadow-lg"
+            className="w-full rounded-xl shadow-lg h-[400px] object-cover"
             src="https://res.cloudinary.com/duj6ublev/video/upload/v1739351182/videoplaybacksrilanka_gvnhxo.mp4"
             autoPlay
             loop

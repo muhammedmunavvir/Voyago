@@ -8,6 +8,8 @@ import { Packagedetails } from "./pages/Packagedetails";
 import { PackagerInfo } from "./Home/Packagerinfo";
 import { SignUpForPackagers } from "./components/auth/PackagersSign";
 import NotFound from "./pages/Notfound";
+import AboutUs from "./pages/Aboutpage";
+import { ContactUs } from "./pages/Contactus";
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
 
       <Routes>
         <Route path="*"element={<NotFound/>}/>
+        <Route path="/aboutus"element={<AboutUs/>}/>
+        <Route path="/contactus"element={<ContactUs/>}/>
         <Route path="/" element={<Homepage />} />
         <Route path="/signup-traveler" element={<SignUpfortravelers />} />
         <Route path="/signup-packager" element={<SignUpForPackagers />} />
@@ -23,6 +27,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/allpackages" element={<Allpackages />} />
         <Route path="/packagedetailpage/:id" element={<Packagedetails />} />
+
       </Routes>
 
      

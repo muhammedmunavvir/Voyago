@@ -24,7 +24,7 @@ export const joivalidationpackagers = Joi.object({
   password: Joi.string().min(6).max(20).required(),
   licenseNumber: Joi.string().required(),
   address: Joi.string().min(5).max(100).required(),
-  website: Joi.string().uri().optional(),
+  website: Joi.string().uri().optional(false),
   confirmPassword: Joi.string().valid(Joi.ref("password")).required().messages({
     "any.only": "Passwords do not match",
   }),

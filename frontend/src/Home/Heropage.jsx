@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { API_URL } from "../conf/APiconfi";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const Heropage = () => {
+  const navigate=useNavigate()
   const fetchPackages = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/v1/packages/allpackages`);
@@ -26,6 +28,10 @@ export const Heropage = () => {
   if (isError) {
     return <h1>error plz try agian later</h1>;
   }
+  const toproductdetailpage = (id) => {
+    console.log(id);
+    navigate(`/packagedetailpage/${id}`);
+  };
 
   return (
     <section className="relative w-full h-[80vh] text-white flex items-center">
@@ -36,10 +42,10 @@ export const Heropage = () => {
       <div className="relative z-10 px-10 w-full">
         {/* Title & Caption Aligned Left */}
         <div className="mb-10">
-          <h1 className="text-2xl md:text-5xl font-bold mb-4 text-left">
+          <h1 className="text-1xl md:text-3xl font-bold mb-1 text-left">
             Top Trending Destinations
           </h1>
-          <p className="text-lg md:text-xl text-left">
+          <p className="text-lg md:text-[15px] text-left">
             Discover breathtaking locations and unforgettable experiences.
           </p>
         </div>
@@ -49,22 +55,24 @@ export const Heropage = () => {
           {packages.map((destination, index) => (
             <div
               key={index}
-              className="bg-white text-gray-900 p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              className="bg-white text-gray-900 p-1 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              onClick={()=>toproductdetailpage(destination._id)}
             >
               <img
                 src={destination.coverimage}
                 alt={destination.coverimage}
-                className="w-full h-40 object-cover rounded-lg mb-3"
+                className="w-full h-[260px] object-cover rounded-lg mb-3"
               />
-              <h3 className="text-xl font-bold">{destination.title}</h3>
+              <h3 className="text-[13px] font-semibold">{destination.title}</h3>
               {/* <p className="text-sm text-gray-700">{destination.description}</p> */}
             </div>
           ))}
         </div>
 
+     {/* statc two icon */}
         <div className="fixed bottom-4 right-4 flex items-center gap-4">
           <div className="bg-white rounded-full shadow-lg p-4 flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+            <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white">
               EVA
             </div>
             <div className="bg-blue-100 px-3 py-1 rounded-full text-blue-600 text-sm">

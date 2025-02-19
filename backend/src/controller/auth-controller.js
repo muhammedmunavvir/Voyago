@@ -14,14 +14,20 @@ export const travlersignupcontroller = async (req, res) => {
       console.log(error);
       return res.status(400).json({
         status: "fail",
-        message: "validation fail",
-        data: error.details[0],
+        message: error.details[0].message,
       });
     }
 
     const { username, email, phonenumber, password } = req.body;
     const hashedpassword = await bcryptj.hash(password, 10);
 
+    const existingUser = await trasignmodel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Email already exists",
+      });
+    }
     const user = await trasignmodel.create({
       username,
       email,
@@ -36,7 +42,10 @@ export const travlersignupcontroller = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ status: "fail", message: "server error" });
+    return res.status(500).json({
+      status: "fail",
+      message: "server error",
+    });
   }
 };
 
@@ -46,9 +55,10 @@ export const packagersignupcontroller = async (req, res) => {
     const { error } = joivalidationpackagers.validate(req.body);
     if (error) {
       console.log(error.details);
-      return res
-        .status(400)
-        .json({ status: "fail", message: "validation error" });
+      return res.status(400).json({
+        status: "fail",
+        message: error.details[0].message,
+      });
     }
 
     const {
@@ -61,6 +71,14 @@ export const packagersignupcontroller = async (req, res) => {
       address,
     } = req.body;
     const hashedpassword = await bcryptj.hash(password, 10);
+    const existingUser = await packagermodel.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Email already exists",
+      });
+    }
 
     await packagermodel.create({
       businessName,
@@ -86,9 +104,11 @@ export const travlerlogincontroller = async (req, res) => {
   try {
     const { error } = joiloginUser.validate(req.body);
     if (error) {
-      return res
-        .status(400)
-        .json({ status: "fail", message: "validation error" });
+      console.log(error.details[0]);
+      return res.status(400).json({
+        status: "fail",
+        message: error.details[0].message,
+      });
     }
 
     const { email, password } = req.body;
@@ -131,8 +151,12 @@ export const travlerlogincontroller = async (req, res) => {
 
 export const logoutcontroller = async (req, res) => {
   try {
-    res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "None" });
-    res.status(200).json({status:"success",message:"logout successfull"})
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+    res.status(200).json({ status: "success", message: "logout successfull" });
   } catch (error) {
     console.log(error);
   }

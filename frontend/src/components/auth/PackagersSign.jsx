@@ -3,9 +3,11 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../conf/APiconfi";
+import toast from "react-hot-toast";
 
 export const SignUpForPackagers = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState();
   const [packager, setPackager] = useState({
     businessName: "",
     ownerName: "",
@@ -38,9 +40,19 @@ export const SignUpForPackagers = () => {
         address: "",
         website: "",
       });
+      toast.success("sign up successfull")
       navigate("/login");
     } catch (error) {
-      console.log(error);
+      console.log(error, "from backend");
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -49,7 +61,7 @@ export const SignUpForPackagers = () => {
       className="relative flex items-center justify-center min-h-screen px-10 bg-cover bg-center"
       style={{
         backgroundImage:
-          "url('https://img.lovepik.com/element/45006/9430.png_860.png')",
+          "url('https://png.pngtree.com/thumb_back/fh260/background/20200714/pngtree-modern-double-color-futuristic-neon-background-image_351866.jpg')",
       }}
     >
       <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -140,13 +152,14 @@ export const SignUpForPackagers = () => {
             required
           />
           <input
-            type="url"
+            type="text"
             name="website"
             value={packager.website}
             onChange={handleChange}
             className="col-span-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-gray-900 shadow-sm"
             placeholder="Website (Optional)"
           />
+         
 
           <button
             type="submit"
@@ -155,6 +168,9 @@ export const SignUpForPackagers = () => {
             Sign Up
           </button>
         </form>
+        {errorMessage && (
+            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+          )}
 
         <p className="mt-4 text-center text-white">
           Already have an account?{" "}

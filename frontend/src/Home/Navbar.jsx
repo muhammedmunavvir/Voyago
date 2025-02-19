@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-import logo from "../assets/istockphoto-1201592213-612x612.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
@@ -44,14 +43,14 @@ export const Navbar = () => {
         <NavLink to="/" className="flex items-center space-x-3">
           <img
             className="w-10 h-10 rounded-full"
-            src={logo}
+            src='https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png'
             alt="Voyago Logo"
           />
-          <span className="text-2xl font-bold">Voyago</span>
+          <span className="text-1xl font-bold">Voyago</span>
         </NavLink>
 
         {/* Navigation Links */}
-        <ul className="hidden md:flex space-x-6 text-lg">
+        <ul className="hidden md:flex space-x-6 text-[15px]">
           <li>
             <NavLink to="/" className="hover:text-gray-300">
               Home
@@ -63,12 +62,12 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" className="hover:text-gray-300">
+            <NavLink to="aboutus" className="hover:text-gray-300">
               About
             </NavLink>
           </li>
           <li>
-            <NavLink to="/contact" className="hover:text-gray-300">
+            <NavLink to="/contactus" className="hover:text-gray-300">
               Contact
             </NavLink>
           </li>
@@ -96,7 +95,7 @@ export const Navbar = () => {
               {/* Sign Up Section */}
               <div className="relative">
                 <button
-                  className="flex items-center bg-red-500 px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-600 transition-all duration-300"
+                  className="flex items-center text-[12px] bg-red-500 px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-600 transition-all duration-300"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   Sign Up <ChevronDown className="ml-2 w-5 h-5" />
@@ -126,7 +125,7 @@ export const Navbar = () => {
               {/* Separate Login Button */}
               <NavLink
                 to="/login"
-                className="bg-blue-500 px-6 py-2 rounded-lg text-white font-semibold hover:bg-blue-700 transition-all duration-300"
+                className="bg-red-500 px-6 py-[10px] text-[12px] rounded-lg text-white font-semibold hover:bg-blue-700 transition-all duration-300"
               >
                 Log in
               </NavLink>

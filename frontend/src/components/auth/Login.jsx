@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../conf/APiconfi";
 import toast from "react-hot-toast";
-
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:5173";
 
 export const Login = () => {
   const nav = useNavigate();
-
+  const [errorMessage, setErrorMessage] = useState("");
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -24,27 +22,38 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     try {
-    const res=  await axios.post(
+      const res = await axios.post(
         `${API_URL}/api/v1/auth/traveler/login`,
         user,
         { withCredentials: true }
       );
-    const userDetails=res.data.data
-      console.log(userDetails)
-      localStorage.setItem("userid",userDetails._id)
-      localStorage.setItem("username",userDetails.username)
-      localStorage.setItem("userrole",userDetails.role)
-      setUser({
-        email: "",
-        password: "",
-      });
 
-  toast.success("login successfully")
+      const userDetails = res.data.data;
+      
+
+      localStorage.setItem("userid", userDetails._id);
+      localStorage.setItem("username", userDetails.username);
+      localStorage.setItem("userrole", userDetails.role);
+
+      setUser({ email: "", password: "" });
+
+      toast.success("Login successful");
       nav("/");
     } catch (error) {
       console.log(error);
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -59,16 +68,16 @@ export const Login = () => {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
-      {/* Company Logo on Right */}
-      <div className="absolute top-6 right-10">
-        <img
-          src=".../.../" // Replace with actual logo path
-          alt="Voyago Logo"
-          className="w-32 h-auto md:w-40 lg:w-48"
-        />
-      </div>
+   {/* Company Logo on Right */}
+<div className="absolute top[999px] right-[100px] opacity-45 ">
+  <img
+    src="https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png"
+    alt="Voyago Logo"
+    className="w-85em h-80"
+   
+  />
+</div>
 
-      {/* Form Container */}
       <div className="relative w-full max-w-sm p-6 bg-white bg-opacity-20 backdrop-blur-md shadow-lg rounded-xl">
         <h2 className="text-2xl font-bold text-center text-white">Login</h2>
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
@@ -91,12 +100,15 @@ export const Login = () => {
               value={user.password}
               onChange={handleChange}
               className="w-full px-4 py-2 text-white bg-transparent border rounded-lg focus:ring focus:ring-blue-300 placeholder-gray-300"
-              placeholder="password"
+              placeholder="Password"
               required
             />
           </div>
 
-          {/* Forgot Password Link */}
+          {errorMessage && (
+            <p className="text-red-500 text-sm text-center">{errorMessage}</p>
+          )}
+
           <div className="text-right">
             <a
               href="/forgot-password"
@@ -114,9 +126,8 @@ export const Login = () => {
           </button>
         </form>
 
-        {/* Signup Link */}
         <p className="mt-4 text-center text-white">
-          Dont have an account?{" "}
+          Don t have an account?{" "}
           <NavLink
             to="/signup-traveler"
             className="text-blue-300 hover:underline"

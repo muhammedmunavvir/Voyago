@@ -22,6 +22,7 @@ export const trasignmodel = new mongoose.model(
   phoneNumber:{type:String,require:true},
   password:{type:String,require:true},
   licenseNumber: {type:String,require:true},
+  role:{type:String,require:false,default:"packager"},
   address: {type:String,require:true},
   website: {type:String,require:false},
 })
