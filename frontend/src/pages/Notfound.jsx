@@ -8,10 +8,10 @@ export default function NotFound() {
       <p className="mt-2 text-gray-400">
         The page you are looking for doesn’t exist or has been moved.
       </p>
-      
+
       <Link
         to="/"
-        className="mt-6 px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-green-700 transition-all"
+        className="mt-X6 px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-green-700 transition-all"
       >
         Go Back Home
       </Link>

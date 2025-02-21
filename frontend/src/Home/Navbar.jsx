@@ -1,35 +1,25 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 import { API_URL } from "../conf/APiconfi";
+
 export const Navbar = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem("username");
+  const ownername = localStorage.getItem("ownername");
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Mobile menu
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Sign-up dropdown
 
   const handleLogout = async () => {
     const notify = toast.loading("Logging out...");
     await axios.post(`${API_URL}/auth/users/logout`);
     setTimeout(() => {
       localStorage.clear();
-
-      toast.dismiss(notify); // Remove loading toast
+      toast.dismiss(notify);
       toast.success("Logged out successfully!");
       navigate("/");
     }, 2000);
@@ -37,13 +27,15 @@ export const Navbar = () => {
 
   return (
     <nav className="bg-slate-700 text-white relative">
+      
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <Toaster position="top-right" />
+
         {/* Logo */}
         <NavLink to="/" className="flex items-center space-x-3">
           <img
             className="w-10 h-10 rounded-full"
-            src='https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png'
+            src="https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png"
             alt="Voyago Logo"
           />
           <span className="text-1xl font-bold">Voyago</span>
@@ -62,7 +54,7 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="aboutus" className="hover:text-gray-300">
+            <NavLink to="/aboutus" className="hover:text-gray-300">
               About
             </NavLink>
           </li>
@@ -74,23 +66,50 @@ export const Navbar = () => {
         </ul>
 
         {/* Authentication Section */}
-        <div
-          className="relative hidden md:flex items-center space-x-4"
-          ref={dropdownRef}
-        >
-          {username ? (
+        <div className="relative hidden md:flex items-center space-x-4">
+          {username||ownername ? (
             // Logged-in state
-            <div className="flex items-center space-x-4">
-              <span className="text-lg font-semibold">Welcome, {username}</span>
+            <div className="relative">
               <button
-                className="bg-red-500 px-4 py-2 rounded-lg text-white font-semibold hover:bg-blue-600 transition-all duration-300"
-                onClick={handleLogout}
+                className="p-1 rounded-full hover:bg-red-600 transition-all duration-300"
+                onClick={() => setProfileDropdownOpen(!isProfileDropdownOpen)}
               >
-                Logout
+                <img
+                  className="w-10 h-10 rounded-full object-cover"
+                  src="https://media.istockphoto.com/id/1201544881/photo/freestyle-young-woman-in-shirt-standing-isolated-on-bage-taking-selfie-taking-selfie-on.jpg?s=612x612&w=0&k=20&c=BdqXJzUAG1VZW7nu2Z2DSsxksi6LhvNpUrgXgpRBSD0="
+                  alt="user profile"
+                  width="40px"
+                />
               </button>
+
+              {/* Profile Dropdown Menu */}
+              {isProfileDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg border border-gray-200 z-50">
+                  <NavLink
+                    to="/Userprofile"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setProfileDropdownOpen(false)}
+                  >
+                    Profile
+                  </NavLink>
+                  <NavLink
+                    to="/settings"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setProfileDropdownOpen(false)}
+                  >
+                    Settings
+                  </NavLink>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            // Not logged in - Separate Login & Sign-Up
+            
             <>
               {/* Sign Up Section */}
               <div className="relative">
@@ -109,14 +128,14 @@ export const Navbar = () => {
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                    Sign Up as traveler
+                      Sign Up as Traveler
                     </NavLink>
                     <NavLink
                       to="/packager-info"
                       className="block px-4 py-2 hover:bg-gray-100"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                     Be a packager
+                      Be a Packager
                     </NavLink>
                   </div>
                 )}
@@ -153,12 +172,12 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" className="block hover:text-gray-300">
+            <NavLink to="/aboutus" className="block hover:text-gray-300">
               About
             </NavLink>
           </li>
           <li>
-            <NavLink to="/contact" className="block hover:text-gray-300">
+            <NavLink to="/contactus" className="block hover:text-gray-300">
               Contact
             </NavLink>
           </li>

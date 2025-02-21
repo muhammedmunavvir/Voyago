@@ -88,6 +88,7 @@ export const packagersignupcontroller = async (req, res) => {
       password: hashedpassword,
       licenseNumber,
       address,
+      onceLogined:"notLogin"
     });
 
     return res
@@ -112,10 +113,12 @@ export const travlerlogincontroller = async (req, res) => {
     }
 
     const { email, password } = req.body;
+
     let user = await trasignmodel.findOne({ email });
 
     if (!user) {
       user = await packagermodel.findOne({ email });
+      console.log(user);
     }
 
     if (!user) {
@@ -129,6 +132,9 @@ export const travlerlogincontroller = async (req, res) => {
       return res
         .status(400)
         .json({ status: "fail", message: "password is incorrect" });
+    }
+    if (user.onceLogin === "notLogined") {
+     await  packagermodel.updateOne({email:user.email},{$set:{onceLogin:"logined"}});
     }
 
     const token = jwt.sign({ user }, "secretekey", { expiresIn: "1h" });

@@ -29,16 +29,37 @@ export const Login = () => {
         withCredentials: true,
       });
 
-      const userDetails = res.data.data;
+      console.log(res);
 
-      localStorage.setItem("userid", userDetails._id);
-      localStorage.setItem("username", userDetails.username);
-      localStorage.setItem("userrole", userDetails.role);
+      var userdetails = res.data.data; // Use a different variable name
+
+      localStorage.setItem("userid", userdetails._id);
+
+      if (userdetails.role === "traveler") {
+        localStorage.setItem("username", userdetails.username);
+      } else {
+        localStorage.setItem("ownername", userdetails.ownerName);
+      }
+
+      localStorage.setItem("userrole", userdetails.role);
 
       setUser({ email: "", password: "" });
 
       toast.success("Login successful");
-      nav("/");
+
+      if (
+        userdetails.role === "packager" &&
+        userdetails.onceLogin === "logined"
+      ) {
+        nav("/packager");
+      } else if (
+        userdetails.role === "packager" &&
+        userdetails.onceLogin == "notLogined"
+      ) {
+        nav("/packager/packagerset-up");
+      } else {
+        nav("/");
+      }
     } catch (error) {
       console.log(error);
 

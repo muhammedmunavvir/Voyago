@@ -6,7 +6,7 @@ const travlersignupscheama = {
   phonenumber: { type: Number, require: true },
   password: { type: String, require: true },
   role:{type:String,require:false,default:"traveler"},
-  status:{type:String,require:false,}
+  status:{type:String,require:false,},
 };
 
 export const trasignmodel = new mongoose.model(
@@ -25,6 +25,8 @@ export const trasignmodel = new mongoose.model(
   role:{type:String,require:false,default:"packager"},
   address: {type:String,require:true},
   website: {type:String,require:false},
+  onceLogin:{type:String,require:false,default:"notLogined"}
+
 })
 
 export const packagermodel=mongoose.model("packager",packagerscheama)

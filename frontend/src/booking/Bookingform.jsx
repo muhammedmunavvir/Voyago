@@ -1,78 +1,44 @@
-// import { useState } from "react";
-// import { Card, CardContent } from "../components/ui/Card";
-// import { Button } from "../components/ui/Button";
-// import { Input } from "../components/ui/Input";
-// import { Label } from "../components/ui/Label";
-// import { Select,  SelectItem,   } from "../components/ui/Select";
-// import { Calendar } from "../components/ui/Calendar";
+import { useState } from "react";
 
+export const BookingConfirmation = () => {
+  const [bookingDetails, setBookingDetails] = useState({
+    tourName: "Explore the Alps",
+    date: "2025-03-15",
+    price: "$500",
+    travelers: 2,
+    userName: "John Doe",
+    email: "johndoe@example.com",
+    phone: "123-456-7890",
+    specialRequests: "Vegetarian meal preference",
+  });
 
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white p-6">
+      <div className="max-w-lg w-full bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-center mb-4">Booking Details</h2>
+        
+        <div className="border-t border-gray-600 py-4">
+          <p className="text-lg font-semibold">{bookingDetails.tourName}</p>
+          <p className="text-gray-400">Date: {bookingDetails.date}</p>
+          <p className="text-gray-400">Travelers: {bookingDetails.travelers}</p>
+          <p className="text-gray-400">Price: {bookingDetails.price}</p>
+        </div>
 
-// export const BookingForm=()=> {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     phone: "",
-//     travelers: 1,
-//     date: new Date(),
-//     paymentMethod: "Credit Card",
-//   });
+        <div className="border-t border-gray-600 py-4">
+          <p className="text-lg font-semibold">User Information</p>
+          <p className="text-gray-400">Name: {bookingDetails.userName}</p>
+          <p className="text-gray-400">Email: {bookingDetails.email}</p>
+          <p className="text-gray-400">Phone: {bookingDetails.phone}</p>
+        </div>
 
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({ ...prev, [name]: value }));
-//   };
+        <div className="border-t border-gray-600 py-4">
+          <p className="text-lg font-semibold">Special Requests</p>
+          <p className="text-gray-400">{bookingDetails.specialRequests || "None"}</p>
+        </div>
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log("Booking Details:", formData);
-//     alert("Booking Successful!");
-//   };
-
-//   return (
-//     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-//       <Card className="w-full max-w-md p-6 shadow-lg bg-white rounded-2xl">
-//         <CardContent>
-//           <h2 className="text-xl font-semibold text-center mb-4">Book Your Package</h2>
-//           <form onSubmit={handleSubmit} className="space-y-4">
-//             <div>
-//               <Label>Name</Label>
-//               <Input type="text" name="name" value={formData.name} onChange={handleChange} required />
-//             </div>
-//             <div>
-//               <Label>Email</Label>
-//               <Input type="email" name="email" value={formData.email} onChange={handleChange} required />
-//             </div>
-//             <div>
-//               <Label>Phone</Label>
-//               <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-//             </div>
-//             <div>
-//               <Label>Number of Travelers</Label>
-//               <Input type="number" name="travelers" min="1" value={formData.travelers} onChange={handleChange} required />
-//             </div>
-//             <div>
-//               <Label>Travel Date</Label>
-//               <Calendar value={formData.date} onChange={(date) => setFormData({ ...formData, date })} />
-//             </div>
-//             <div>
-//               <Label>Payment Method</Label>
-//                 <Select name="paymentMethod" value={formData.paymentMethod} onChange={handleChange}>
-//                     <SelectItem value="Credit Card">Credit Card</SelectItem>
-//                     <SelectItem value="Debit Card">Debit Card</SelectItem>
-//                     <SelectItem value="UPI">UPI</SelectItem>
-//                     <SelectItem value="Wallet">Wallet</SelectItem>
-//                 </Select>
-//             </div>
-//             <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">
-//               Confirm Booking
-//             </Button>
-//           </form>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// }
-
-
+        <button className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg">Proceed to Payment</button>
+      </div>
+    </div>
+  );
+};
 

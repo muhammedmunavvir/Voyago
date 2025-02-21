@@ -1,6 +1,6 @@
 import { SignUpfortravelers } from "./components/auth/travelersSignup";
 import { Homepage } from "./Home/Homepage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Navbar } from "./Home/Navbar";
 import { Login } from "./components/auth/Login";
 import { Allpackages } from "./pages/Allpackages";
@@ -10,15 +10,24 @@ import { SignUpForPackagers } from "./components/auth/PackagersSign";
 import NotFound from "./pages/Notfound";
 import AboutUs from "./pages/Aboutpage";
 import { ContactUs } from "./pages/Contactus";
-
+import { UserProfile } from "./pages/Userprofile";
+import { BookingConfirmation } from "./booking/Bookingform";
+import Footer from "./Home/Footer";
+import { PackagerSetup } from "./components/Packager/PackagerSetup";
+import { PackagerHome } from "./components/Packager/packagerHome";
+import { PackagerDashboard } from "./components/Packager/PackagerDashboard";
+import { AccessDenied } from "./pages/AccessDenied";
+import { AddNewPackage } from "./components/Packager/Addnewpackage";
 
 const App = () => {
+  const location = useLocation();
+  const istrue = location.pathname.startsWith("/packager");
   return (
     <div>
-      <Navbar />
-
+      {!istrue && <Navbar />}
+     
       <Routes>
-        <Route path="*" element={<NotFound />} />
+       
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/" element={<Homepage />} />
@@ -28,8 +37,27 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/allpackages" element={<Allpackages />} />
         <Route path="/packagedetailpage/:id" element={<Packagedetails />} />
-       
+        <Route path="/bookingpage/:id" element={<BookingConfirmation />} />
+        <Route path="/userprofile" element={<UserProfile />} />
+
+        {/* packager module */}
+        <Route path="/packager/packagerset-up" element={<PackagerSetup/>}/>
+
+        <Route path="/packager" element={<PackagerHome/>}>
+
+         <Route path="packagerdashboard" element={<PackagerDashboard/>}/>
+         <Route path="addnewpackage" element={<AddNewPackage/>}/>
+
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+        <Route path="/accessdenied" element={<AccessDenied />} />
       </Routes>
+
+    
+    
+      
+      
     </div>
   );
 };
