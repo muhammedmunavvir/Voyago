@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
 import { ThreeDot } from "react-loading-indicators";
@@ -25,6 +25,15 @@ export const Packagedetails = () => {
     queryKey: ["fetchbyid", id],
     queryFn: fetchbyid,
   });
+
+  // it for messageing purpose
+console.log(item)
+  const packagerId=item.addedby
+  console.log(packagerId)
+
+  const tomessagepage=()=>{
+    Navigate(`/travelers/chat`,{state:{packagerId:packagerId}})
+  }
 
   if (isLoading) {
     return (
@@ -169,8 +178,8 @@ export const Packagedetails = () => {
         </a>
 
         {/* Message/Inquiry Icon */}
-        <button
-          onClick={() => alert('Open Inquiry Form')} // Replace with actual modal or chat function
+        <button onClick={()=>tomessagepage()}
+          // onClick={() => alert('Open Inquiry Form')} // Replace with actual modal or chat function
           className="bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
         >
           <FaEnvelope className="text-2xl" />

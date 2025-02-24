@@ -20,7 +20,11 @@ import { AccessDenied } from "./pages/AccessDenied";
 import { AddNewPackage } from "./components/Packager/Addnewpackage";
 import { ManagePackages } from "./components/Packager/Managepackage";
 import { Packagedetailspageofprovider } from "./components/Packager/Packagedetailpageofprovider";
-import EVAChat from "./pages/Chatwithme";
+// import EVAChat from "./pages/Chatwithme";
+import { Bookings } from "./components/Packager/Bookings";
+import { PackagerChat } from "./components/Chat/Packagermessage";
+import { TravelerChat } from "./components/Chat/Travelersmessage";
+
 
 const App = () => {
   const location = useLocation();
@@ -42,7 +46,8 @@ const App = () => {
         <Route path="/bookingpage/:id" element={<BookingConfirmation />} />
         <Route path="/userprofile" element={<UserProfile />} />
         {/* <Route path="/Evachat" element={<EVAChat />} /> */}
-
+        <Route path="/travelers/chat" element={<TravelerChat />} />
+        <Route path="/packagers/chat" element={<PackagerChat />} />
         {/* packager module */}
         <Route path="/packager/packagerset-up" element={<PackagerSetup />} />
 
@@ -50,8 +55,11 @@ const App = () => {
           <Route path="packagerdashboard" element={<PackagerDashboard />} />
           <Route path="addnewpackage" element={<AddNewPackage />} />
           <Route path="managepackage" element={<ManagePackages />} />
-          <Route path="packagedetailspageofprovider/:id" element={<Packagedetailspageofprovider />} />
-
+          <Route path="/packager/bookings" element={<Bookings />} />
+          <Route
+            path="packagedetailspageofprovider/:id"
+            element={<Packagedetailspageofprovider />}
+          /> 
         </Route>
 
         <Route path="*" element={<NotFound />} />
