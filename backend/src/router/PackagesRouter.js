@@ -4,7 +4,7 @@ import { jwtverification } from "../middlewares/jwtverification.js"
 const router=express.Router()
 
 router.get("/allpackages",PackagesController)
-router.get("/singlepackage/:id",jwtverification,fetchpackagesbyid)
+router.get("/singlepackage/:id",fetchpackagesbyid)
 
 
 export default router         

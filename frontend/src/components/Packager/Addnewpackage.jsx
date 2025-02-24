@@ -1,10 +1,14 @@
+import axios from "axios";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../conf/APiconfi";
 
 export const AddNewPackage = () => {
+  const navigate = useNavigate();
+
   const { register, handleSubmit, control } = useForm({
-    defaultValues: {
-      title: "",
+    defaultValues: { 
+      title: "", 
       description: "",
       destination: "",
       duration: "",
@@ -13,29 +17,33 @@ export const AddNewPackage = () => {
       availableSeats: "",
       maxCapacity: "",
       transport: { type: "", included: false },
-      accommodation: { hotelName: "", stars: "", roomType: "" },
       itinerary: [{ day: "", activity: "", location: "" }],
       highlights: [""],
-      inclusions: [""],
+      inclusions: [""], 
       exclusions: [""],
-      isubmages:["","",""],
+      subimages: ["", "", ""],
       coverimage: "",
-      status: "available",
+      departureFrom:"",
+      status: "available",  
     },
   });
 
-  const navigate = useNavigate();
+  
+  const addedby=localStorage.getItem("userid")
+  console.log(addedby)
 
-  const onFormSubmit = (data) => {
-    console.log("Package Data:", data);
-
-    // Simulating an API call (replace with actual backend request)
-    setTimeout(() => {
-      alert("Package added successfully!");
-      navigate("/admin-dashboard"); // Redirect back to the dashboard
-    }, 1000);
+  const onFormSubmit = async (data) => {
+    try {
+      const requestData = { ...data, addedby };
+      const response = await axios.post(`${API_URL}/packager/addnewpackage`, requestData );
+      console.log("Package Added:", response.data);
+      // navigate("/dashboard");  
+    } catch (error) {
+      console.error("Error adding package:", error); 
+    }
   };
-
+ 
+  // Fields for dynamic inputs
   const { fields: itineraryFields, append: addItinerary } = useFieldArray({
     control,
     name: "itinerary",
@@ -57,80 +65,85 @@ export const AddNewPackage = () => {
   });
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <form
+      onSubmit={handleSubmit(onFormSubmit)}
+      className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg"
+    >
       <h2 className="text-2xl font-bold mb-4">Add Tour Package</h2>
 
+      {/* Basic Details */}
       <div className="grid grid-cols-2 gap-4">
-        <input {...register("title")} className="p-2 border rounded-md" placeholder="Package Title" required />
-        <input {...register("destination")} className="p-2 border rounded-md" placeholder="Destination" required />
-        <input {...register("duration")} className="p-2 border rounded-md" placeholder="Duration (e.g. 6 Days, 5 Nights)" required />
-        <input {...register("price")} type="number" className="p-2 border rounded-md" placeholder="Price (INR)" required />
-        <input {...register("availableSeats")} type="number" className="p-2 border rounded-md" placeholder="Available Seats" required />
-        <input {...register("maxCapacity")} type="number" className="p-2 border rounded-md" placeholder="Max Capacity" required />
+        <input {...register("title", { required: "Title is required" })} className="p-2 border rounded-md" placeholder="Package Title" />
+        <input {...register("destination", { required: "Destination is required" })} className="p-2 border rounded-md" placeholder="Destination" />
+        <input {...register("duration", { required: "Duration is required" })} className="p-2 border rounded-md" placeholder="Duration (e.g. 6 Days, 5 Nights)" />
+        <input {...register("price", { required: "Price is required" })} type="number" className="p-2 border rounded-md" placeholder="Price (INR)" />
+        <input {...register("availableSeats", { required: "Available seats required" })} type="number" className="p-2 border rounded-md" placeholder="Available Seats" />
+        <input {...register("maxCapacity", { required: "Max capacity required" })} type="number" className="p-2 border rounded-md" placeholder="Max Capacity" />
+        <input {...register("departureFrom", { required: "departureFrom" })}  className="p-2 border rounded-md" placeholder="departureFrom" />
       </div>
 
-      <textarea {...register("description")} className="w-full p-2 border rounded-md mt-2" placeholder="Package Description" required></textarea>
+      {/* Description */}
+      <textarea {...register("description", { required: "Description is required" })} className="w-full p-2 border rounded-md mt-2" placeholder="Package Description"></textarea>
 
+      {/* Transport Details */}
       <h3 className="font-semibold mt-4">Transport</h3>
-      <input {...register("transport.type")} className="w-full p-2 border rounded-md" placeholder="Transport Type (e.g. SUV, Bike)" required />
+      <input {...register("transport.type", { required: "Transport type is required" })} className="w-full p-2 border rounded-md" placeholder="Transport Type (e.g. tourist bus, train)" />
       <label className="flex items-center mt-2">
         <input type="checkbox" {...register("transport.included")} className="mr-2" />
         Transport Included
       </label>
 
-      <h3 className="font-semibold mt-4">Accommodation</h3>
-      <input {...register("accommodation.hotelName")} className="w-full p-2 border rounded-md" placeholder="Hotel Name" required />
-      <input {...register("accommodation.stars")} type="number" className="w-full p-2 border rounded-md" placeholder="Hotel Stars" required />
-      <input {...register("accommodation.roomType")} className="w-full p-2 border rounded-md" placeholder="Room Type" required />
-
+      {/* Itinerary */}
       <h3 className="font-semibold mt-4">Itinerary</h3>
       {itineraryFields.map((item, index) => (
         <div key={index} className="border p-3 rounded-md mb-2">
-          <input {...register(`itinerary.${index}.day`)} className="w-full p-2 border rounded-md" placeholder="Day Number" required />
-          <input {...register(`itinerary.${index}.activity`)} className="w-full p-2 border rounded-md mt-1" placeholder="Activity" required />
-          <input {...register(`itinerary.${index}.location`)} className="w-full p-2 border rounded-md mt-1" placeholder="Location" required />
+          <input {...register(`itinerary.${index}.day`)} className="w-full p-2 border rounded-md" placeholder="Day Number" />
+          <input {...register(`itinerary.${index}.activity`)} className="w-full p-2 border rounded-md mt-1" placeholder="Activity" />
+          <input {...register(`itinerary.${index}.location`)} className="w-full p-2 border rounded-md mt-1" placeholder="Location" />
         </div>
       ))}
-      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addItinerary({ day: "", activity: "", location: "" })}>
-        Add Day
-      </button>
+      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addItinerary({ day: "", activity: "", location: "" })}>Add Day</button>
 
+      {/* Inclusions */}
       <h3 className="font-semibold mt-4">Inclusions</h3>
       {inclusionsFields.map((item, index) => (
-        <input key={index} {...register(`inclusions.${index}`)} className="w-full p-2 border rounded-md mt-1" placeholder="Inclusion" required />
+        <input key={index} {...register(`inclusions.${index}`)} className="w-full p-2 border rounded-md mt-1" placeholder="Inclusion" />
       ))}
-      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addInclusion("")}>
-        Add Inclusion
-      </button>
+      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addInclusion("")}>Add Inclusion</button>
 
+      {/* Exclusions */}
       <h3 className="font-semibold mt-4">Exclusions</h3>
       {exclusionsFields.map((item, index) => (
-        <input key={index} {...register(`exclusions.${index}`)} className="w-full p-2 border rounded-md mt-1" placeholder="Exclusion" required />
+        <input key={index} {...register(`exclusions.${index}`)} className="w-full p-2 border rounded-md mt-1" placeholder="Exclusion" />
       ))}
-      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addExclusion("")}>
-        Add Exclusion
-      </button>
+      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addExclusion("")}>Add Exclusion</button>
 
+      {/* Highlights */}
       <h3 className="font-semibold mt-4">Highlights</h3>
       {highlightsFields.map((item, index) => (
-        <input key={index} {...register(`highlights.${index}`)} className="w-full p-2 border rounded-md mt-1" placeholder="Highlight" required />
+        <input key={index} {...register(`highlights.${index}`)} className="w-full p-2 border rounded-md mt-1" placeholder="Highlight" />
       ))}
-      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addHighlight("")}>
-        Add Highlight
-      </button>
+      <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => addHighlight("")}>Add Highlight</button>
 
+      {/* Cover Image */}
       <h3 className="font-semibold mt-4">Cover Image</h3>
-      <input {...register("coverimage")} className="w-full p-2 border rounded-md" placeholder="Cover Image URL" required />
-      <h3 className="font-semibold mt-4">sub Image 1</h3>
-      <input {...register("coverimage")} className="w-full p-2 border rounded-md" placeholder="Cover Image URL" required />
-      <h3 className="font-semibold mt-4">sub Image 2</h3>
-      <input {...register("coverimage")} className="w-full p-2 border rounded-md" placeholder="Cover Image URL" required />
-      <h3 className="font-semibold mt-4">sub Image 3</h3>
-      <input {...register("coverimage")} className="w-full p-2 border rounded-md" placeholder="Cover Image URL" required />
+      <input {...register("coverimage", { required: "Cover image is required" })} className="w-full p-2 border rounded-md" placeholder="Cover Image URL" />
 
-      <button type="submit" className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md w-full">
-        Save Package
-      </button>
+      {/* Sub Images */}
+      <h3 className="font-semibold mt-4">Sub Images</h3>
+      <input {...register("subimages.0")} className="w-full p-2 border rounded-md" placeholder="Sub Image 1" />
+      <input {...register("subimages.1")} className="w-full p-2 border rounded-md" placeholder="Sub Image 2" />
+      <input {...register("subimages.2")} className="w-full p-2 border rounded-md" placeholder="Sub Image 3" />
+
+      {/* Departure & Return Dates */}
+      {/* <h3 className="font-semibold mt-4">Dates</h3>
+      <label>Departure Date:</label>
+      <input type="date" {...register("departureDate")} className="w-full p-2 border rounded-md" />
+      <label>Return Date:</label>
+      <input type="date" {...register("returnDate")} className="w-full p-2 border rounded-md" /> */}
+
+      {/* Submit Button */}
+      <button type="submit" className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md w-full">Save Package</button>
     </form>
   );
 };

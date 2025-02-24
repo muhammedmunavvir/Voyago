@@ -1,48 +1,37 @@
 import mongoose from "mongoose";
-const itinerarySchema = new mongoose.Schema({
-  day: Number,
-  activity: String,
-  location: String,
-  includedMeals: [String],
-});
 
-const reviewSchema = new mongoose.Schema({
-  reviewId: String,
-  userId: String,
-  rating: Number,
-  comment: String,
-  date: Date,
+const itinerarySchema = new mongoose.Schema({
+  day: { type: Number, required: true },
+  activity: { type: String, required: true },
+  location: { type: String, required: true },
 });
 
 const packageSchema = new mongoose.Schema({
-  packageId: { type: String, required: true, unique: true },
+  addedby:{type:String,required:true}, 
   title: { type: String, required: true },
   description: { type: String, required: true },
   destination: { type: String, required: true },
   duration: { type: String, required: true },
   price: { type: Number, required: true },
   currency: { type: String, default: "INR" },
-  availableSeats: Number,
-  maxCapacity: Number,
-  departureDate: Date,
-  returnDate: Date,
-  transport: {type: { type: String, required: true }, included: Boolean,},
-    
-  accommodation: {
-    hotelName: String,
-    stars: Number,
-    roomType: String,
-    includedMeals: [String],
+  availableSeats: { type: Number, required: true },
+  maxCapacity: { type: Number, required: true },
+  departureFrom: { type: String, required: true },
+ 
+  transport: {type: {  type: String, required: true,},
+    included: { type: Boolean, default: false },
   },
-  itinerary: [itinerarySchema],
-  highlights: [String],
-  inclusions: [String],
-  exclusions: [String],
-  reviews: [reviewSchema],
-  images: [String],
-  status: { type: String, enum: ["available", "sold out", "canceled"], default: "available" },
+  itinerary: { type: [itinerarySchema], default: [] },
+  highlights: { type: [String], default: [] },
+  inclusions: { type: [String], default: [] },
+  exclusions: { type: [String], default: [] },
+  status: {
+    type: String,
+    enum: ["available", "not available"],
+    default: "available",
+  },
+  subimages: { type: [String], default: [] },
   coverimage: { type: String, required: true },
-  
 });
 
-export const packageModel= mongoose.model("Packages", packageSchema);
+export const packagemodel = mongoose.model("Packages", packageSchema);

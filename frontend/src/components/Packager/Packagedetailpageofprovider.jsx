@@ -1,13 +1,13 @@
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { API_URL } from "../conf/APiconfi";
+import {  useParams } from "react-router-dom";
+import { API_URL } from "../../conf/APiconfi"
 import { useQuery } from "@tanstack/react-query";
 import { ThreeDot } from "react-loading-indicators";
-import { FaStar, FaMapMarkerAlt, FaBed, FaUtensils, FaBus, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { FaStar, FaMapMarkerAlt, FaBed, FaUtensils, FaBus, } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-export const Packagedetails = () => {
-  const Navigate=useNavigate()
+export const Packagedetailspageofprovider = () => {
+
   const { id } = useParams();
 
   const fetchbyid = async () => {
@@ -44,9 +44,7 @@ export const Packagedetails = () => {
     );
   }
 
-  const tobooking=(id)=>{
-    Navigate(`/bookingpage/${id}`)
-  }
+ 
  
   return (
     <motion.div
@@ -156,28 +154,7 @@ export const Packagedetails = () => {
         </ul>
       </div>
 
-       {/* Floating Inquiry Buttons */}
-       <div className="fixed bottom-6 right-6 flex flex-col space-y-4 z-50">
-        {/* WhatsApp Icon */}
-        <a
-          href="https://wa.me/your_number" // Replace with your number
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 flex items-center justify-center"
-        >
-          <FaWhatsapp className="text-2xl" />
-        </a>
-
-        {/* Message/Inquiry Icon */}
-        <button
-          onClick={() => alert('Open Inquiry Form')} // Replace with actual modal or chat function
-          className="bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
-        >
-          <FaEnvelope className="text-2xl" />
-        </button>
-
-      </div>
-      <button onClick={()=>tobooking(item._id)}>Book now</button>
+    
     </motion.div>
   );
 };

@@ -19,9 +19,9 @@ export const PackagerHome = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-[#a6a6a7]">
     {/* Sidebar */}
-    <aside className="w-64 bg-slate-800 text-white p-6 space-y-6 h-screen fixed">
+    <aside className="w-64 bg-[#642191] text-white p-6 space-y-6 h-screen fixed">
       <h2 className="text-2xl font-bold text-center">Packager Panel</h2>
       <nav className="space-y-4">
         <NavLink 
@@ -31,7 +31,7 @@ export const PackagerHome = () => {
           <FaHome /> <span>Dashboard</span>
         </NavLink>
         <NavLink 
-          to="/packager/managepackages"
+          to="/packager/managepackage"
           className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-700"
         >
           <FaBox /> <span>Manage Packages</span>

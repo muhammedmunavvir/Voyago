@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ShimmerButton } from "../components/magicui/shimmer-button";
+import { NavLink } from "react-router-dom";
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -69,10 +70,11 @@ const ImageSlider = () => {
             Search
           </button>
         </div>
-
-        <ShimmerButton className="bg-white text-gray-900 ml-96 mt-2 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
-          Start Exploring
-        </ShimmerButton>
+        <NavLink to="/allpackages">
+  <ShimmerButton className="bg-white text-gray-900 ml-96 mt-2 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
+    Start Exploring
+  </ShimmerButton>
+</NavLink>
       </div>
 
       {/* Navigation Dots */}

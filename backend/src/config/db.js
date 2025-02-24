@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
-
-export const dbconnection=mongoose.connect("mongodb://localhost:27017/voyago").then(()=>{
+import dotenv from "dotenv"
+dotenv.config()
+export const dbconnection=mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log("connected to mongo db")
 })
 .catch((error)=>{

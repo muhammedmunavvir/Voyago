@@ -88,7 +88,7 @@ export const packagersignupcontroller = async (req, res) => {
       password: hashedpassword,
       licenseNumber,
       address,
-      onceLogined:"notLogin"
+      onceLogined: "notLogin",
     });
 
     return res
@@ -134,7 +134,10 @@ export const travlerlogincontroller = async (req, res) => {
         .json({ status: "fail", message: "password is incorrect" });
     }
     if (user.onceLogin === "notLogined") {
-     await  packagermodel.updateOne({email:user.email},{$set:{onceLogin:"logined"}});
+      await packagermodel.updateOne(
+        { email: user.email },
+        { $set: { onceLogin: "logined" } }
+      );
     }
 
     const token = jwt.sign({ user }, "secretekey", { expiresIn: "1h" });
@@ -150,7 +153,7 @@ export const travlerlogincontroller = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: "fail", message: "server error" });
-  }
+  } 
 };
 
 //logout controller

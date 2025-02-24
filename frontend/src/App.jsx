@@ -18,6 +18,9 @@ import { PackagerHome } from "./components/Packager/packagerHome";
 import { PackagerDashboard } from "./components/Packager/PackagerDashboard";
 import { AccessDenied } from "./pages/AccessDenied";
 import { AddNewPackage } from "./components/Packager/Addnewpackage";
+import { ManagePackages } from "./components/Packager/Managepackage";
+import { Packagedetailspageofprovider } from "./components/Packager/Packagedetailpageofprovider";
+import EVAChat from "./pages/Chatwithme";
 
 const App = () => {
   const location = useLocation();
@@ -25,9 +28,8 @@ const App = () => {
   return (
     <div>
       {!istrue && <Navbar />}
-     
+
       <Routes>
-       
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/" element={<Homepage />} />
@@ -39,25 +41,22 @@ const App = () => {
         <Route path="/packagedetailpage/:id" element={<Packagedetails />} />
         <Route path="/bookingpage/:id" element={<BookingConfirmation />} />
         <Route path="/userprofile" element={<UserProfile />} />
+        {/* <Route path="/Evachat" element={<EVAChat />} /> */}
 
         {/* packager module */}
-        <Route path="/packager/packagerset-up" element={<PackagerSetup/>}/>
+        <Route path="/packager/packagerset-up" element={<PackagerSetup />} />
 
-        <Route path="/packager" element={<PackagerHome/>}>
-
-         <Route path="packagerdashboard" element={<PackagerDashboard/>}/>
-         <Route path="addnewpackage" element={<AddNewPackage/>}/>
+        <Route path="/packager" element={<PackagerHome />}>
+          <Route path="packagerdashboard" element={<PackagerDashboard />} />
+          <Route path="addnewpackage" element={<AddNewPackage />} />
+          <Route path="managepackage" element={<ManagePackages />} />
+          <Route path="packagedetailspageofprovider/:id" element={<Packagedetailspageofprovider />} />
 
         </Route>
 
         <Route path="*" element={<NotFound />} />
         <Route path="/accessdenied" element={<AccessDenied />} />
       </Routes>
-
-    
-    
-      
-      
     </div>
   );
 };
