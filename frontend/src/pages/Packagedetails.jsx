@@ -1,5 +1,5 @@
 import axios from "axios";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
 import { ThreeDot } from "react-loading-indicators";
@@ -26,11 +26,8 @@ export const Packagedetails = () => {
     queryFn: fetchbyid,
   });
 
-  // it for messageing purpose
-console.log(item)
-  const packagerId=item.addedby
-  console.log(packagerId)
-
+  //it for messaging porpose
+  const packagerId = item ? item.addedby : null; 
   const tomessagepage=()=>{
     Navigate(`/travelers/chat`,{state:{packagerId:packagerId}})
   }

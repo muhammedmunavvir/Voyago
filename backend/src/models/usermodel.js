@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
-//traveler sign up
-const travlersignupscheama = {
-  username: { type: String, require: true },
-  email: { type: String, require: true },
-  phonenumber: { type: Number, require: true },
-  password: { type: String, require: true },
-  role:{type:String,require:false,default:"traveler"},
-  status:{type:String,require:false,},
-};
 
-export const trasignmodel = new mongoose.model(
-  "travelers",
-  travlersignupscheama
-);
+// Define Traveler Schema Correctly
+const travelerSchema = new mongoose.Schema({
+  username: { type: String, required: true },  // ✅ Fix: 'require' → 'required'
+  email: { type: String, required: true },
+  phonenumber: { type: Number, required: true },
+  password: { type: String, required: true },
+  role: { type: String, required: false, default: "traveler" },
+  status: { type: String, required: false },
+});
+
+// Correct Model Registration
+export const trasignmodel = mongoose.model("Traveler", travelerSchema);
+
 
 //PACKAGERS SIGNUP
  const packagerscheama=new mongoose.Schema({
