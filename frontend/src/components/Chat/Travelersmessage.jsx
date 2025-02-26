@@ -1,48 +1,60 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import { API_URL } from "../../conf/APiconfi";
 import { useLocation } from "react-router-dom";
+import { socket } from "../../lib/socket";
 
-const socket = io("http://localhost:9297");
 
 export const TravelerChat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const location = useLocation();
   const receiverId = location.state?.packagerId || "";
+  const packagername = location.state?.packagername || "";
   const senderId = localStorage.getItem("userid");
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
+    if (senderId) {
+      socket.connect();
+      socket.emit("user_connected", senderId);
+    }
+
+    socket.on("receive_message", (newMessage) => {
+      console.log("📩 New message received:", newMessage);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
     return () => {
       socket.off("receive_message");
+      socket.disconnect();
     };
-  }, []);
+  }, [senderId, receiverId]);
 
   const sendMessage = async () => {
+    if (!message || !receiverId) return;
     try {
-      const res = await axios.post(`${API_URL}/chat/messages`, {
+      // const res = await axios.post(`${API_URL}/chat/messages`, {
+        // message,
+        // senderId,
+        // receiverId,
+      // });
+      const sendMessage = {
         message,
         senderId,
         receiverId,
-      });
-      socket.emit("send_message", res.data);
-      setMessages((prev) => [...prev, res.data]);
+      }
+      socket.emit("send_message", sendMessage);
+      setMessages((prevMessages) => [...prevMessages, sendMessage]);
       setMessage("");
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("❌ Error sending message:", error);
     }
   };
 
+  
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-400 to-purple-500">
       <div className="bg-white shadow-2xl rounded-xl p-6 w-96">
         <h1 className="text-2xl font-semibold text-purple-700 text-center mb-4">
-          Chat with {receiverId}
+          Chat with {packagername}
         </h1>
         <div className="h-80 p-3 bg-gray-200 overflow-y-auto rounded flex flex-col">
   {Array.isArray(messages) && messages.length > 0 ? (

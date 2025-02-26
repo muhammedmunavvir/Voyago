@@ -28,8 +28,9 @@ export const Packagedetails = () => {
 
   //it for messaging porpose
   const packagerId = item ? item.addedby : null; 
+  const packagername = item ? item.packagername : null; 
   const tomessagepage=()=>{
-    Navigate(`/travelers/chat`,{state:{packagerId:packagerId}})
+    Navigate(`/travelers/chat`,{state:{packagerId:packagerId,packagername}})
   }
 
   if (isLoading) {

@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useEffect, useState, useMemo } from "react";
-import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
 import { API_URL } from "../../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
+import { socket } from "../../lib/socket";
 
 export const PackagerChat = () => {
   const [message, setMessage] = useState("");
@@ -10,61 +10,87 @@ export const PackagerChat = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const senderId = localStorage.getItem("userid");
 
-  const socket = useMemo(() => io("http://localhost:9297"), []);
-
   useEffect(() => {
+    if (senderId) {
+      socket.connect();
+      socket.emit("user_connected", senderId);
+    }
+
     socket.on("receive_message", (newMessage) => {
+      console.log("📩 New message received:", newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
     return () => {
       socket.off("receive_message");
+      socket.disconnect();
     };
-  }, []);
+  }, [senderId]);
 
   const getConversations = async () => {
     try {
-      const res = await axios.get(`${API_URL}/chat/message/getconversations/${senderId}`);
+      const res = await axios.get(
+        `${API_URL}/chat/message/getconversations/${senderId}`
+      );
       return res.data.data;
     } catch (error) {
-      console.error("Error fetching conversations:", error);
+      console.error("⚠️ Error fetching conversations:", error);
       return [];
     }
   };
 
-  const { data: conversations = [], isLoading, isError } = useQuery({
+  const { data: conversations = [] } = useQuery({
     queryFn: getConversations,
     queryKey: ["conversations", senderId],
     enabled: !!senderId,
   });
 
-
+  useEffect(() => {
+    const fetchUserMessages = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/chat/messages/${senderId}?receiverId=${selectedUser}`);
+        console.log(res.data);
+        setMessages(res.data?.messages)
+        return res.data.messages;
+      } catch (error) {
+        console.error("⚠️ Error fetching conversations:", error);
+        return [];
+      }
+    };
+    fetchUserMessages();
+  }, [selectedUser, senderId]);
 
   const selectUser = async (receiverId) => {
     setSelectedUser(receiverId);
     try {
-      const res = await axios.get(`${API_URL}/chat/messages/${senderId}/${receiverId}`);
-      setMessages(Array.isArray(res.data) ? res.data : []);  // Ensure messages is always an array
+      const res = await axios.get(
+        `${API_URL}/chat/messages/${senderId}/${receiverId}`
+      );
+      setMessages(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.error("Error fetching messages:", error);
-      setMessages([]);  // Set to an empty array if there's an error
+      console.error("⚠️ Error fetching messages:", error);
+      setMessages([]);
     }
   };
-  
 
   const sendMessage = async () => {
     if (!message || !selectedUser) return;
     try {
-      const res = await axios.post(`${API_URL}/chat/messages`, {
+      // const res = await axios.post(`${API_URL}/chat/messages`, {
+      //   message,
+      //   senderId,
+      //   receiverId: selectedUser,
+      // });
+      const messageTosend = {
         message,
         senderId,
         receiverId: selectedUser,
-      });
-      socket.emit("send_message", res.data);
-      setMessages((prevMessages) => [...prevMessages, res.data]);
+      };
+      socket.emit("send_message", messageTosend);
+      setMessages((prevMessages) => [...prevMessages, messageTosend]);
       setMessage("");
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("❌ Error sending message:", error);
     }
   };
 
@@ -72,18 +98,20 @@ export const PackagerChat = () => {
     <div className="flex h-screen">
       <div className="w-1/3 p-4 bg-gray-100 border-r">
         <h2 className="text-xl font-bold mb-4">Conversations</h2>
-        {isLoading && <p>Loading...</p>}
-        {isError && <p className="text-red-600">Error fetching conversations</p>}
+        {/* {isLoading && <p>Loading...</p>} */}
+        {/* {isError && <p className="text-red-600">Error fetching conversations</p>} */}
         {conversations.length > 0 ? (
           conversations.map((conversation) => (
             <div
-              key={conversation._id} 
+              key={conversation._id}
               className={`p-2 cursor-pointer rounded ${
-                selectedUser === conversation._id ? "bg-blue-500 text-white" : "bg-white"
+                selectedUser === conversation._id
+                  ? "bg-blue-500 text-white"
+                  : "bg-white"
               }`}
               onClick={() => selectUser(conversation._id)}
             >
-              {conversation.name || `User: ${conversation._id}`}
+              {conversation.username || `User: ${conversation._id}`}
             </div>
           ))
         ) : (
@@ -100,7 +128,9 @@ export const PackagerChat = () => {
                 <div
                   key={index}
                   className={`p-2 my-1 rounded max-w-xs ${
-                    msg.senderId === senderId ? "bg-blue-400 text-white self-end" : "bg-gray-300"
+                    msg.senderId === senderId
+                      ? "bg-blue-400 text-white self-end"
+                      : "bg-gray-300"
                   }`}
                 >
                   {msg.message}
@@ -115,7 +145,10 @@ export const PackagerChat = () => {
                 className="flex-1 p-2 border rounded"
                 placeholder="Type your message..."
               />
-              <button onClick={sendMessage} className="ml-2 px-4 py-2 bg-blue-600 text-white rounded">
+              <button
+                onClick={sendMessage}
+                className="ml-2 px-4 py-2 bg-blue-600 text-white rounded"
+              >
                 Send
               </button>
             </div>

@@ -3,6 +3,7 @@ import { packagemodel } from "../models/packagescheama.js"
 export const Addnewpackage=async(req,res)=>{
   console.log(req.body)
   const {
+    packagername,
     addedby,
     title, 
     description,
@@ -25,6 +26,7 @@ export const Addnewpackage=async(req,res)=>{
     // const email=req.cookie.user.email
 try{
   await packagemodel.create({
+    packagername,
     addedby,
     title,
     description,

@@ -30,11 +30,13 @@ export const AddNewPackage = () => {
 
   
   const addedby=localStorage.getItem("userid")
+  const packagername=localStorage.getItem("ownername")
+
   console.log(addedby)
 
   const onFormSubmit = async (data) => {
     try {
-      const requestData = { ...data, addedby };
+      const requestData = { ...data, addedby ,packagername};
       const response = await axios.post(`${API_URL}/packager/addnewpackage`, requestData );
       console.log("Package Added:", response.data);
       // navigate("/dashboard");  

@@ -3,30 +3,23 @@ import { chatmodel } from "../models/Chatschema.js";
 import { packagermodel } from "../models/usermodel.js";
 import { trasignmodel } from "../models/usermodel.js";
 
-export const messagecontroller = async (req, res) => {
-  console.log(req.body);
-  try {
-    const { senderId, receiverId, message } = req.body;
 
-    // Ensure all fields are provided
-    if (!senderId || !receiverId || !message) {
-      return res.status(400).json({ error: "All fields are required" });
+
+export const saveMessage = async (messageData) => {
+    try {
+        const newMessage = await chatmodel.create({
+            senderId: messageData.senderId,
+            receiverId: messageData.receiverId,
+            message: messageData.message,
+            timestamp: messageData.timestamp,
+        });
+
+        console.log("✅ Message saved:", newMessage);
+        return newMessage;
+    } catch (error) {
+        console.error("❌ Error saving message:", error);
+        throw new Error("Failed to save message");
     }
-
-    const newMessage = await chatmodel.create({
-      senderId: senderId,
-      receiverId: receiverId,
-      message: message,
-    });
-
-    // Emit the message to the receiver via WebSocket
-    req.io.to(receiverId).emit("receive_message", newMessage);
-
-    res.status(201).json(newMessage);
-  } catch (error) {
-    console.error("Error sending message:", error);
-    res.status(500).json({ error: "Error sending message" });
-  }
 };
 
 //get conversation
@@ -110,5 +103,33 @@ export const selectConversation = async (req, res) => {
   } catch (error) {
     console.error("Error fetching conversations:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+export const getUserSingleChat = async (req, res) => {
+  const { senderId } = req.params;
+  const {  receiverId } = req.query;
+  console.log("ndfas ",req.params);
+  console.log("ndfas ",req.query);
+  
+
+  try {
+    // Fetch messages between the two users
+    const messages = await chatmodel.find({
+      $or: [
+        { senderId: senderId, receiverId: receiverId },
+        { senderId: receiverId, receiverId: senderId },
+      ],
+    }).sort({ timestamp: 1 });
+
+    if (!messages.length) {
+      return res.status(404).json({ error: 'No messages found between users' });
+    }
+
+    res.json({ messages });
+  } catch (error) {
+    console.error("Error fetching single chat:", error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
