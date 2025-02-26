@@ -33,6 +33,10 @@ app.use("/api/v1", routes);
 
 chatSocket(io)
 
+PORT_NUMBER=9297
+MONGO_URL="mongodb://localhost:27017/voyago"
+JWT_SECRET_KEY=12345678
+
 
 
 
