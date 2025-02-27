@@ -51,8 +51,8 @@ export const Packagedetails = () => {
     );
   }
 
-  const tobooking=(id)=>{
-    Navigate(`/bookingpage/${id}`)
+  const tobooking=()=>{
+    Navigate(`/bookingpage`,{state:{packagerId,packagername,packagename:item.title,packageid:item._id}})
   }
  
   return (
@@ -184,7 +184,7 @@ export const Packagedetails = () => {
         </button>
 
       </div>
-      <button onClick={()=>tobooking(item._id)}>Book now</button>
+      <button className="bg-yellow-500 rounded-xl p-3" onClick={()=>tobooking()}>Book now</button>
     </motion.div>
   );
 };

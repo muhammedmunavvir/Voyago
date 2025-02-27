@@ -1,5 +1,7 @@
 import { packagemodel } from "../models/packagescheama.js";
+
 export const PackagesController = async (req, res) => {
+
   try {
     const packages = await packagemodel.find();
 

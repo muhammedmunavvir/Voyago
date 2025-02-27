@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const jwtverification = (req, res, next) => {
   const { token, user } = req.cookies;
+ 
 
   if (!token) {
     return res.status(400).json({ status: "fail", message: "token not found" });
@@ -14,6 +15,6 @@ export const jwtverification = (req, res, next) => {
     console.log(error);
     res.status(400).json({ message: "invalid token" }) 
 
-  }
+  } 
  
 };

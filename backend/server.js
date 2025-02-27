@@ -31,12 +31,7 @@ app.use("/api/v1", routes);
 
 // Setup Socket.io
 
-chatSocket(io)
-
-
-
-
-
+chatSocket(io);
 
 const port = process.env.PORT_NUMBER;
 server.listen(port, () => {

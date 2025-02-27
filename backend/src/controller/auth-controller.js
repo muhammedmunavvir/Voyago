@@ -146,7 +146,7 @@ export const travlerlogincontroller = async (req, res) => {
       secure: true,
       sameSite: "None",
     });
-
+ 
     return res
       .status(200)
       .json({ status: "success", message: "login successfully", data: user });

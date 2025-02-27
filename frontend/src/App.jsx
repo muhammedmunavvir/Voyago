@@ -11,7 +11,6 @@ import NotFound from "./pages/Notfound";
 import AboutUs from "./pages/Aboutpage";
 import { ContactUs } from "./pages/Contactus";
 import { UserProfile } from "./pages/Userprofile";
-import { BookingConfirmation } from "./booking/Bookingform";
 import Footer from "./Home/Footer";
 import { PackagerSetup } from "./components/Packager/PackagerSetup";
 import { PackagerHome } from "./components/Packager/packagerHome";
@@ -24,6 +23,8 @@ import { Packagedetailspageofprovider } from "./components/Packager/Packagedetai
 import { Bookings } from "./components/Packager/Bookings";
 import { PackagerChat } from "./components/Chat/Packagermessage";
 import { TravelerChat } from "./components/Chat/Travelersmessage";
+import { BookingPage } from "./booking/Bookingform";
+import { Bookingsummary } from "./booking/Bookingsummary";
 
 
 const App = () => {
@@ -43,11 +44,12 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/allpackages" element={<Allpackages />} />
         <Route path="/packagedetailpage/:id" element={<Packagedetails />} />
-        <Route path="/bookingpage/:id" element={<BookingConfirmation />} />
+        <Route path="/bookingpage" element={<BookingPage />} />
         <Route path="/userprofile" element={<UserProfile />} />
         {/* <Route path="/Evachat" element={<EVAChat />} /> */}
         <Route path="/travelers/chat" element={<TravelerChat />} />
         <Route path="/packagers/chat" element={<PackagerChat />} />
+        <Route path="/bookingsummary" element={<Bookingsummary />} />
         {/* packager module */}
         <Route path="/packager/packagerset-up" element={<PackagerSetup />} />
 
