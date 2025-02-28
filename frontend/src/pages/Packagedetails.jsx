@@ -52,7 +52,7 @@ export const Packagedetails = () => {
   }
 
   const tobooking=()=>{
-    Navigate(`/bookingpage`,{state:{packagerId,packagername,packagename:item.title,packageid:item._id}})
+    Navigate(`/bookingpage`,{state:{packagerId,packagername,packagename:item.title,packageid:item._id,price:item.price}})
   }
  
   return (

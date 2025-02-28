@@ -10,8 +10,10 @@ export const jwtverification = (req, res, next) => {
 
   try {
     const verifytoken = jwt.verify(token, "secretekey");
+    req.userId=verifytoken.user._id
+   
     next(); 
-  } catch (error) {
+  } catch (error) { 
     console.log(error);
     res.status(400).json({ message: "invalid token" }) 
 

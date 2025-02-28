@@ -1,50 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../conf/APiconfi";
 
 export const BookingPage = () => {
-  const Navigate=useNavigate()
-
- const travelerid=localStorage.getItem("userid")
- console.log(travelerid)
+  const navigate = useNavigate();
+  const travelerid = localStorage.getItem("userid");
   const location = useLocation();
-  const passeddata = location.state;
-  console.log(passeddata);
+  const passeddata = location.state || {}; // Ensure passeddata is not undefined
+  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phoneNumber: "",
     travelDate: "",
-    returnDate: "",   
-    numOfTravelers: "",
+    returnDate: "",
+    numOfTravelers: 1, // Default to 1
     specialRequests: "",
   });
+
+  const [totalCost, setTotalCost] = useState(passeddata.price || 0); // Ensure price is valid
+
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  // ✅ Handle Input Changes
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
+  // ✅ Update Total Cost When Travelers Change
+  useEffect(() => {
+    if (passeddata.price) {
+      setTotalCost(Number(formData.numOfTravelers) * passeddata.price);
+    }
+  }, [formData.numOfTravelers, passeddata.price]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
+      const numTravelers = Number(formData.numOfTravelers) || 1;
+      const calculatedTotalCost = numTravelers * passeddata.price; // Ensure correct calculation
+
       const response = await axios.post(`${API_URL}/booking/packagebooking`, {
         ...formData,
-        packageId:passeddata.packageid,
+        packageId: passeddata.packageid,
         packageName: passeddata.packagename,
-        providerId:passeddata.packagerId,
-        providerName:passeddata.packagername,
-        userId:travelerid
+        providerId: passeddata.packagerId,
+        providerName: passeddata.packagername,
+        userId: travelerid,
+        totalCost: calculatedTotalCost, // Send calculated total cost
       });
+      console.log(response)
+
       setMessage("Booking successful!");
-      Navigate("/bookingsummary")
+      navigate("/razorpaycheckoutflow",{
+        state: { totalAmount: response.data.booking.totalCost, transactionId: response.data.razorpay_order_id }});
+
     } catch (error) {
-      setMessage("Booking failed. Please try again.",error);
+      console.error("Booking error:", error);
+      setMessage(`Booking failed: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -91,7 +117,7 @@ export const BookingPage = () => {
         <div className="mb-4">
           <label className="block text-sm font-medium">Travel Date</label>
           <input
-            min={new Date().toISOString().split("T")[0]} // Disable past dates
+            min={new Date().toISOString().split("T")[0]}
             type="date"
             name="travelDate"
             value={formData.travelDate}
@@ -101,24 +127,19 @@ export const BookingPage = () => {
           />
         </div>
 
-        <div className="mb-4 disable">
-          <label className="block text-sm font-medium ">
-            Return Date (Optional)
-          </label>
+        <div className="mb-4">
+          <label className="block text-sm font-medium">Return Date (Optional)</label>
           <input
             type="date"
             name="returnDate"
-            disabled
             value={formData.returnDate}
             onChange={handleChange}
-            className="w-full p-2 border rounded cursor-not-allowed"
+            className="w-full p-2 border rounded"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium">
-            Number of Travelers
-          </label>
+          <label className="block text-sm font-medium">Number of Travelers</label>
           <input
             type="number"
             name="numOfTravelers"
@@ -140,12 +161,17 @@ export const BookingPage = () => {
           ></textarea>
         </div>
 
+        {/* Display the total cost dynamically */}
+        <div className="mb-4">
+          <p className="text-lg font-bold">Total Cost: ₹{totalCost}</p>
+        </div>
+
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded"
           disabled={loading}
         >
-          {loading ? "Booking..." : "Book Now"}
+          {loading ? "Booking..." : "Proceed to Payment"}
         </button>
       </form>
     </div>

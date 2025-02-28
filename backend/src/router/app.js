@@ -15,8 +15,9 @@ router.use("/packager",Providerrouter)
 
 //messaging route
 router.use("/chat",messageRouter)
-router.use("/booking",packagebookingroute)
-router.use("/payment",packagebookingroute)
+
+router.use("/booking",jwtverification,packagebookingroute)
+router.use("/payment",jwtverification,packagebookingroute)
 
 export default router;
  

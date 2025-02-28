@@ -25,6 +25,7 @@ import { PackagerChat } from "./components/Chat/Packagermessage";
 import { TravelerChat } from "./components/Chat/Travelersmessage";
 import { BookingPage } from "./booking/Bookingform";
 import { Bookingsummary } from "./booking/Bookingsummary";
+import { RazorpayCheckoutPage } from "./booking/Razorpaycheckoutflow";
 
 
 const App = () => {
@@ -44,11 +45,13 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/allpackages" element={<Allpackages />} />
         <Route path="/packagedetailpage/:id" element={<Packagedetails />} />
-        <Route path="/bookingpage" element={<BookingPage />} />
+    
         <Route path="/userprofile" element={<UserProfile />} />
         {/* <Route path="/Evachat" element={<EVAChat />} /> */}
         <Route path="/travelers/chat" element={<TravelerChat />} />
         <Route path="/packagers/chat" element={<PackagerChat />} />
+        <Route path="/bookingpage" element={<BookingPage />} />
+        <Route path="/razorpaycheckoutflow" element={<RazorpayCheckoutPage />} />
         <Route path="/bookingsummary" element={<Bookingsummary />} />
         {/* packager module */}
         <Route path="/packager/packagerset-up" element={<PackagerSetup />} />
