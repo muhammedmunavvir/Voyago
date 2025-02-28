@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 // Define Traveler Schema Correctly
@@ -8,6 +9,7 @@ const travelerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, required: false, default: "traveler" },
   status: { type: String, required: false },
+  profilepic:{type:String,required:false}
 });
 
 // Correct Model Registration

@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const UserProfile = () => {
+  const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [user, setUser] = useState({
     name: "Jane Doe",
@@ -14,34 +16,18 @@ export const UserProfile = () => {
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setUser((prevUser) => ({ ...prevUser, profilePic: imageUrl }));
-    }
-  };
-
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 bg-gray-900 text-white shadow-lg rounded-lg">
       <h2 className="text-3xl font-bold mb-6 text-center">User Profile</h2>
       <div className="flex flex-col items-center">
-        <label htmlFor="profilePic" className="cursor-pointer">
+        {/* Navigate to upload page when profile image is clicked */}
+        <div onClick={() => navigate("/uploadprofilephoto")} className="cursor-pointer">
           <img
             src={user.profilePic}
             alt="Profile"
             className="w-24 h-24 rounded-full border-2 border-gray-600"
           />
-        </label>
-        {editMode && (
-          <input
-            type="file"
-            id="profilePic"
-            className="mt-3 text-sm"
-            accept="image/*"
-            onChange={handleProfilePicChange}
-          />
-        )}
+        </div>
       </div>
 
       <div className="mt-6">

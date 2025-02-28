@@ -6,7 +6,9 @@ import Providerrouter from "./ProviderRouter.js";
 import { messageRouter } from "./MessageRouter.js";
 import packagebookingroute from "./booking.js";
 import { jwtverification } from "../middlewares/jwtverification.js";
+import profileroute from "./profile.js";
 router.use("/auth", authrouter);
+router.use("/upload",profileroute)
 router.use("/packages", PackagesRouter);
 
 //packagermodule
