@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useAsyncError, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 import { API_URL } from "../conf/APiconfi";
@@ -25,6 +25,21 @@ export const Navbar = () => {
     }, 2000);
   };
 
+
+  //setprofilepic
+  const [profilephoto,setProfilephoto]=useState({})
+  useEffect(()=>{
+    fetchphoto()
+  },[])
+  const userId=localStorage.getItem("userid")
+  const fetchphoto=async()=>{
+    const res=await axios.get(`${API_URL}/users/travelers/${userId}`)
+    setProfilephoto(res.data.data)
+  
+  }
+
+ 
+
   return (
     <nav className="bg-slate-700 text-white relative">
       
@@ -36,6 +51,7 @@ export const Navbar = () => {
           <img
             className="w-10 h-10 rounded-full"
             src="https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png"
+
             alt="Voyago Logo"
           />
           <span className="text-1xl font-bold">Voyago</span>
@@ -76,7 +92,7 @@ export const Navbar = () => {
               >
                 <img
                   className="w-10 h-10 rounded-full object-cover"
-                  src="https://media.istockphoto.com/id/1201544881/photo/freestyle-young-woman-in-shirt-standing-isolated-on-bage-taking-selfie-taking-selfie-on.jpg?s=612x612&w=0&k=20&c=BdqXJzUAG1VZW7nu2Z2DSsxksi6LhvNpUrgXgpRBSD0="
+                  src={profilephoto.profilepic}
                   alt="user profile"
                   width="40px"
                 />

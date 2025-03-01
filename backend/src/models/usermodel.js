@@ -3,14 +3,16 @@ import mongoose from "mongoose";
 
 // Define Traveler Schema Correctly
 const travelerSchema = new mongoose.Schema({
-  username: { type: String, required: true },  // ✅ Fix: 'require' → 'required'
+  username: { type: String, required: true },  
   email: { type: String, required: true },
   phonenumber: { type: Number, required: true },
   password: { type: String, required: true },
   role: { type: String, required: false, default: "traveler" },
   status: { type: String, required: false },
-  profilepic:{type:String,required:false}
-});
+  profilepic:{type:String,required:false},
+  status:{type:String,required:false,default:"active"}
+
+}); 
 
 // Correct Model Registration
 export const trasignmodel = mongoose.model("Traveler", travelerSchema);
@@ -27,7 +29,10 @@ export const trasignmodel = mongoose.model("Traveler", travelerSchema);
   role:{type:String,require:false,default:"packager"},
   address: {type:String,require:true},
   website: {type:String,require:false},
-  onceLogin:{type:String,require:false,default:"notLogined"}
+  onceLogin:{type:String,require:false,default:"notLogined"},
+  profilepic:{type:String,required:false},
+  status:{type:String,required:false,default:"active"}
+
 
 })
 

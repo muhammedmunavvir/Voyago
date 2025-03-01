@@ -1,86 +1,115 @@
+import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { API_URL } from "../conf/APiconfi";
 
 export const UserProfile = () => {
-  const navigate = useNavigate();
-  const [editMode, setEditMode] = useState(false);
-  const [user, setUser] = useState({
-    name: "Jane Doe",
-    email: "janedoe@example.com",
-    phone: "987-654-3210",
-    profilePic: "https://via.placeholder.com/100",
-  });
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [profilePic, setProfilePic] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  // Handle file selection and preview
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+
+    // Free previous preview URL to prevent memory leaks
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+    setPreview(URL.createObjectURL(selectedFile));
   };
 
+  // Handle file upload
+  const handleUpload = async (event) => {
+    event.preventDefault();
+    if (!file) return alert("Please select a file!");
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${API_URL}/upload/profilephoto`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.imageUrl) {
+        setProfilePic(response.data.imageUrl);
+        alert("Upload successful!");
+      } else {
+        alert("Upload failed, no image URL returned.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Upload failed!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  
+
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-gray-900 text-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center">User Profile</h2>
-      <div className="flex flex-col items-center">
-        {/* Navigate to upload page when profile image is clicked */}
-        <div onClick={() => navigate("/uploadprofilephoto")} className="cursor-pointer">
-          <img
-            src={user.profilePic}
-            alt="Profile"
-            className="w-24 h-24 rounded-full border-2 border-gray-600"
-          />
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 to-black">
+      <div className="bg-white/10 backdrop-blur-lg shadow-lg rounded-2xl p-6 w-96 text-center">
+        <h2 className="text-2xl font-semibold text-white mb-4">Upload Profile Photo</h2>
+
+        {/* Profile Image Preview */}
+        <div className="relative flex justify-center mb-4">
+          <label className="cursor-pointer">
+            <div className="relative w-32 h-32 border-4 border-gray-400 rounded-full overflow-hidden hover:border-blue-400 transition">
+              <img
+                src={preview || profilePic || "/default-profile.png"}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+              {loading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="w-8 h-8 border-4 border-white border-t-transparent animate-spin rounded-full"></div>
+                </div>
+              )}
+            </div>
+          </label>
         </div>
-      </div>
 
-      <div className="mt-6">
-        <label className="block font-semibold text-gray-300">Full Name</label>
+        {/* File Input */}
         <input
-          type="text"
-          name="name"
-          value={user.name}
-          disabled={!editMode}
-          onChange={handleChange}
-          className="w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="file"
+          onChange={handleFileChange}
+          accept="image/*"
+          className="hidden"
+          id="fileInput"
         />
-      </div>
-
-      <div className="mt-4">
-        <label className="block font-semibold text-gray-300">
-          Email Address
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={user.email}
-          disabled={!editMode}
-          onChange={handleChange}
-          className="w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="mt-4">
-        <label className="block font-semibold text-gray-300">
-          Phone Number
-        </label>
-        <input
-          type="tel"
-          name="phone"
-          value={user.phone}
-          disabled={!editMode}
-          onChange={handleChange}
-          className="w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="flex justify-between mt-6">
-        <button
-          onClick={() => setEditMode((prev) => !prev)}
-          className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition"
+        <label
+          htmlFor="fileInput"
+          className="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg cursor-pointer hover:bg-blue-700 transition"
         >
-          {editMode ? "Cancel" : "Edit Profile"}
+          Choose File
+        </label>
+
+        {/* Upload Button */}
+        <button
+          onClick={handleUpload}
+          disabled={loading}
+          className={`w-full mt-4 px-4 py-2 rounded-lg text-white font-semibold transition 
+          ${loading ? "bg-gray-600 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"}`}
+        >
+          {loading ? "Uploading..." : "Upload"}
         </button>
-        {editMode && (
-          <button className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md transition">
-            Save Changes
-          </button>
+
+        {/* Success Message */}
+        {profilePic && (
+          <p className="mt-3 text-green-400 font-medium">Profile Picture Updated!</p>
         )}
       </div>
     </div>

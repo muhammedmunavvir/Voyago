@@ -33,6 +33,8 @@ export const travlersignupcontroller = async (req, res) => {
       email,
       phonenumber,
       password: hashedpassword,
+      profilepic:"",
+      status:"active"
     });
 
     return res.status(200).json({
@@ -89,6 +91,8 @@ export const packagersignupcontroller = async (req, res) => {
       licenseNumber,
       address,
       onceLogined: "notLogin",
+      profilepic:"",
+      status:"active"
     });
 
     return res

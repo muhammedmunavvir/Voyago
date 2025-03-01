@@ -7,13 +7,18 @@ import { messageRouter } from "./MessageRouter.js";
 import packagebookingroute from "./booking.js";
 import { jwtverification } from "../middlewares/jwtverification.js";
 import profileroute from "./profile.js";
+import getallusersroute from "./users.js";
+
 router.use("/auth", authrouter);
 router.use("/upload",profileroute)
-router.use("/packages", PackagesRouter);
+router.use("/users",getallusersroute)
+ 
 
+router.use("/packages", PackagesRouter); 
+ 
 //packagermodule
 router.use("/packager",Providerrouter)
-
+ 
 
 //messaging route
 router.use("/chat",messageRouter)

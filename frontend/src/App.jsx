@@ -26,7 +26,7 @@ import { TravelerChat } from "./components/Chat/Travelersmessage";
 import { BookingPage } from "./booking/Bookingform";
 import { Bookingsummary } from "./booking/Bookingsummary";
 import { RazorpayCheckoutPage } from "./booking/Razorpaycheckoutflow";
-import ProfileUpload from "./components/upload/Profileupload";
+// import ProfileUpload from "./components/upload/Profileupload";
 
 
 const App = () => {
@@ -48,7 +48,7 @@ const App = () => {
         <Route path="/packagedetailpage/:id" element={<Packagedetails />} />
     
         <Route path="/userprofile" element={<UserProfile />} />
-        <Route path="/uploadprofilephoto" element={<ProfileUpload />} />
+        {/* <Route path="/uploadprofilephoto" element={<ProfileUpload />} /> */}
         {/* <Route path="/Evachat" element={<EVAChat />} /> */}
         <Route path="/travelers/chat" element={<TravelerChat />} />
         <Route path="/packagers/chat" element={<PackagerChat />} />
