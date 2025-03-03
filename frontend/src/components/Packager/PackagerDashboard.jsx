@@ -1,12 +1,32 @@
+
 import { FaBox, FaUsers, FaEnvelope } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchdshboarddata } from "../../redux/reduxslices/dashboardslice";
 
 export const PackagerDashboard = () => {
+ 
+  const {packages,bookings,status,error}=useSelector((state)=>state.dashboard)
+  console.log("packages :",packages)
+console.log("bookings  :",bookings)
+  const dispatch=useDispatch()
+
+  useEffect(()=>{
+    dispatch(fetchdshboarddata())
+  },[])
+
+  if(status==="loading"){
+    return <h1>loading..</h1>
+  }
+  if(status==="faild"){
+    return  <h1>Error: {error}</h1>
+  }
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Header */}
       <h1 className="text-2xl font-semibold mb-4">Packager Dashboard</h1>
-
+     
       {/* Stats Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         {/* Total Packages */}
@@ -14,7 +34,7 @@ export const PackagerDashboard = () => {
           <FaBox className="text-3xl text-blue-500" />
           <div>
             <h3 className="text-lg font-semibold">Total Packages</h3>
-            <p className="text-xl font-bold">12</p>
+            <p className="text-xl font-bold">{packages.length}</p>
           </div>
         </div>
 
@@ -23,7 +43,7 @@ export const PackagerDashboard = () => {
           <FaUsers className="text-3xl text-green-500" />
           <div>
             <h3 className="text-lg font-semibold">Total Bookings</h3>
-            <p className="text-xl font-bold">8</p>
+            <p className="text-xl font-bold">{bookings.length}</p>
           </div>
         </div>
 

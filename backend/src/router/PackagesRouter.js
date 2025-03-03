@@ -3,7 +3,7 @@ import { fetchpackagesbyid, PackagesController } from "../controller/PackagesCon
 import { jwtverification } from "../middlewares/jwtverification.js"
 const router=express.Router()
 
-router.get("/allpackages",jwtverification,PackagesController)
+router.get("/allpackages",PackagesController)
 router.get("/singlepackage/:id",fetchpackagesbyid)
 
 

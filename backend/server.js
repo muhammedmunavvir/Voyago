@@ -27,6 +27,7 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
 app.use("/api/v1", routes);
 
 // Setup Socket.io

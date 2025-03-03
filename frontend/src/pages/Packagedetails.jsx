@@ -1,18 +1,28 @@
 import axios from "axios";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
 import { ThreeDot } from "react-loading-indicators";
-import { FaStar, FaMapMarkerAlt, FaBed, FaUtensils, FaBus, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import {
+  FaStar,
+  FaMapMarkerAlt,
+  FaBed,
+  FaUtensils,
+  FaBus,
+  FaWhatsapp,
+  FaEnvelope,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
 
 export const Packagedetails = () => {
-  const Navigate=useNavigate()
+  window.scrollTo(0, 0); // Scroll to top when page loads
+
+  const Navigate = useNavigate();
   const { id } = useParams();
 
   const fetchbyid = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const res = await axios.get(`${API_URL}/packages/singlepackage/${id}`);
       return res.data.data;
     } catch (error) {
@@ -21,17 +31,23 @@ export const Packagedetails = () => {
     }
   };
 
-  const { data: item, isError, isLoading } = useQuery({
+  const {
+    data: item,
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: ["fetchbyid", id],
     queryFn: fetchbyid,
   });
 
   //it for messaging porpose
-  const packagerId = item ? item.addedby : null; 
-  const packagername = item ? item.packagername : null; 
-  const tomessagepage=()=>{
-    Navigate(`/travelers/chat`,{state:{packagerId:packagerId,packagername}})
-  }
+  const packagerId = item ? item.addedby : null;
+  const packagername = item ? item.packagername : null;
+  const tomessagepage = () => {
+    Navigate(`/travelers/chat`, {
+      state: { packagerId: packagerId, packagername },
+    });
+  };
 
   if (isLoading) {
     return (
@@ -51,10 +67,18 @@ export const Packagedetails = () => {
     );
   }
 
-  const tobooking=()=>{
-    Navigate(`/bookingpage`,{state:{packagerId,packagername,packagename:item.title,packageid:item._id,price:item.price}})
-  }
- 
+  const tobooking = () => {
+    Navigate(`/bookingpage`, {
+      state: {
+        packagerId,
+        packagername,
+        packagename: item.title,
+        packageid: item._id,
+        price: item.price,
+      },
+    });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -85,27 +109,44 @@ export const Packagedetails = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-xl shadow-lg mb-12">
         <div className="flex items-center space-x-4">
           <FaMapMarkerAlt className="text-2xl text-blue-600" />
-          <p><strong className="text-gray-700">Destination:</strong> {item.destination}</p>
+          <p>
+            <strong className="text-gray-700">Destination:</strong>{" "}
+            {item.destination}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaStar className="text-2xl text-yellow-500" />
-          <p><strong className="text-gray-700">Duration:</strong> {item.duration}</p>
+          <p>
+            <strong className="text-gray-700">Duration:</strong> {item.duration}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaBus className="text-2xl text-green-600" />
-          <p><strong className="text-gray-700">Transport:</strong> {item.transport?.type}</p>
+          <p>
+            <strong className="text-gray-700">Transport:</strong>{" "}
+            {item.transport?.type}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaBed className="text-2xl text-purple-600" />
-          <p><strong className="text-gray-700">Accommodation:</strong> {item.accommodation?.hotelName}</p>
+          <p>
+            <strong className="text-gray-700">Accommodation:</strong>{" "}
+            {item.accommodation?.hotelName}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaUtensils className="text-2xl text-red-600" />
-          <p><strong className="text-gray-700">Meals Included:</strong> {item.accommodation?.includedMeals.join(", ")}</p>
+          <p>
+            <strong className="text-gray-700">Meals Included:</strong>{" "}
+            {item.accommodation?.includedMeals.join(", ")}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaStar className="text-2xl text-yellow-500" />
-          <p><strong className="text-gray-700">Price:</strong> ₹{item.price} {item.currency}</p>
+          <p>
+            <strong className="text-gray-700">Price:</strong> ₹{item.price}{" "}
+            {item.currency}
+          </p>
         </div>
       </div>
 
@@ -145,9 +186,15 @@ export const Packagedetails = () => {
               className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               whileHover={{ scale: 1.02 }}
             >
-              <p className="text-lg font-semibold text-gray-800">Day {dayPlan.day}: {dayPlan.activity}</p>
-              <p className="text-gray-600"><strong>Location:</strong> {dayPlan.location}</p>
-              <p className="text-gray-600"><strong>Meals:</strong> {dayPlan.includedMeals?.join(", ")}</p>
+              <p className="text-lg font-semibold text-gray-800">
+                Day {dayPlan.day}: {dayPlan.activity}
+              </p>
+              <p className="text-gray-600">
+                <strong>Location:</strong> {dayPlan.location}
+              </p>
+              <p className="text-gray-600">
+                <strong>Meals:</strong> {dayPlan.includedMeals?.join(", ")}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -155,7 +202,9 @@ export const Packagedetails = () => {
 
       {/* Highlights */}
       <div className="bg-yellow-50 p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-yellow-700 mb-6">Tour Highlights</h2>
+        <h2 className="text-2xl font-bold text-yellow-700 mb-6">
+          Tour Highlights
+        </h2>
         <ul className="list-disc pl-6 space-y-2 text-gray-700">
           {item.highlights?.map((highlight, index) => (
             <li key={index}>{highlight}</li>
@@ -163,8 +212,8 @@ export const Packagedetails = () => {
         </ul>
       </div>
 
-       {/* Floating Inquiry Buttons */}
-       <div className="fixed bottom-6 right-6 flex flex-col space-y-4 z-50">
+      {/* Floating Inquiry Buttons */}
+      <div className="fixed bottom-6 right-6 flex flex-col space-y-4 z-50">
         {/* WhatsApp Icon */}
         <a
           href="https://wa.me/your_number" // Replace with your number
@@ -176,15 +225,20 @@ export const Packagedetails = () => {
         </a>
 
         {/* Message/Inquiry Icon */}
-        <button onClick={()=>tomessagepage()}
+        <button
+          onClick={() => tomessagepage()}
           // onClick={() => alert('Open Inquiry Form')} // Replace with actual modal or chat function
           className="bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
         >
           <FaEnvelope className="text-2xl" />
         </button>
-
       </div>
-      <button className="bg-yellow-500 rounded-xl p-3" onClick={()=>tobooking()}>Book now</button>
+      <button
+        className="bg-yellow-500 rounded-xl p-3"
+        onClick={() => tobooking()}
+      >
+        Book now
+      </button>
     </motion.div>
   );
 };

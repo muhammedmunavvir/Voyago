@@ -11,7 +11,7 @@ import NotFound from "./pages/Notfound";
 import AboutUs from "./pages/Aboutpage";
 import { ContactUs } from "./pages/Contactus";
 import { UserProfile } from "./pages/Userprofile";
-import Footer from "./Home/Footer";
+// import Footer from "./Home/Footer";
 import { PackagerSetup } from "./components/Packager/PackagerSetup";
 import { PackagerHome } from "./components/Packager/packagerHome";
 import { PackagerDashboard } from "./components/Packager/PackagerDashboard";

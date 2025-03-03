@@ -54,7 +54,7 @@ export const TravelerChat = () => {
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-400 to-purple-500">
       <div className="bg-white shadow-2xl rounded-xl p-6 w-96">
         <h1 className="text-2xl font-semibold text-purple-700 text-center mb-4">
-          Chat with {packagername}
+          Chat with packager
         </h1>
         <div className="h-80 p-3 bg-gray-200 overflow-y-auto rounded flex flex-col">
   {Array.isArray(messages) && messages.length > 0 ? (

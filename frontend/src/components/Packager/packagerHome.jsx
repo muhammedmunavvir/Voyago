@@ -1,6 +1,7 @@
 import { FaHome, FaBox, FaUsers, FaSignOutAlt } from "react-icons/fa";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { PackagerDashboard } from "./PackagerDashboard";
 
 export const PackagerHome = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export const PackagerHome = () => {
 
   return (
     <div className="flex h-screen bg-[#a6a6a7]">
+     
     {/* Sidebar */}
     <aside className="w-64 bg-[#642191] text-white p-6 space-y-6 h-screen fixed">
       <h2 className="text-2xl font-bold text-center">Packager Panel</h2>

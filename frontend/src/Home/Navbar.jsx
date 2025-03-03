@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { NavLink, useAsyncError, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
 import { API_URL } from "../conf/APiconfi";
@@ -92,7 +92,7 @@ export const Navbar = () => {
               >
                 <img
                   className="w-10 h-10 rounded-full object-cover"
-                  src={profilephoto.profilepic}
+                  src={profilephoto?profilephoto.profilepic:null}
                   alt="user profile"
                   width="40px"
                 />

@@ -51,7 +51,7 @@ export const Login = () => {
         userdetails.role === "packager" &&
         userdetails.onceLogin === "logined"
       ) {
-        nav("/packager");
+        nav("/packager/packagerdashboard");
       } else if (
         userdetails.role === "packager" &&
         userdetails.onceLogin == "notLogined"
@@ -59,7 +59,7 @@ export const Login = () => {
         nav("/packager/packagerset-up");
       } else {
         nav("/");
-      }
+      } 
     } catch (error) {
       console.log(error);
 

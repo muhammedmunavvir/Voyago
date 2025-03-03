@@ -29,6 +29,10 @@ const ImageSlider = () => {
     return () => clearInterval(interval);
   });
 
+  const searchingfunction=()=>{
+    e.target.value
+  }
+
   return (
     <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
       {/* Image Slider */}
@@ -65,6 +69,7 @@ const ImageSlider = () => {
             type="text"
             placeholder="Search destinations..."
             className="flex-grow p-2 rounded-l-full focus:outline-none"
+            onChange={()=>searchingfunction(e)}
           />
           <button className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition">
             Search

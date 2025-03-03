@@ -111,7 +111,9 @@ export const PackagerChat = () => {
               }`}
               onClick={() => selectUser(conversation._id)}
             >
-              {conversation.username || `User: ${conversation._id}`}
+              <img src={conversation.profilepic} alt="user profile" />
+             { console.log(conversation)}
+              {  conversation.username || `User: ${conversation._id}`}
             </div>
           ))
         ) : (
