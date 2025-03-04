@@ -53,7 +53,8 @@ export const RazorpayCheckoutPage = () => {
             console.log("🔹 Verification Response:", verifyResponse.data); // Log backend resp
             if (verifyResponse.data.success) {
               toast.success("Payment verified!"); 
-              navigate("/bookingsummary");
+              navigate("/ScratchReward");
+              // navigate("/bookingsummary");
             } else {
               toast.error("Payment failed.");
             }

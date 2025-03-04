@@ -115,6 +115,13 @@ export const Navbar = () => {
                   >
                     Settings
                   </NavLink>
+                  <NavLink
+                    to="/bookings"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setProfileDropdownOpen(false)}
+                  >
+                    Bookings
+                  </NavLink>
                   <button
                     className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
                     onClick={handleLogout}

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { socket } from "../../lib/socket";
+import toast from "react-hot-toast";
 
 
 export const TravelerChat = () => {
+   const navigate=useNavigate()
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const location = useLocation();
@@ -11,7 +13,13 @@ export const TravelerChat = () => {
   const packagername = location.state?.packagername || "";
   const senderId = localStorage.getItem("userid");
 
+ 
   useEffect(() => {
+    if (!senderId) {
+      toast.error("Please login to continue", { id: "login-toast" });
+      navigate("/login");
+      return;
+    }
     if (senderId) {
       socket.connect();
       socket.emit("user_connected", senderId);
@@ -26,7 +34,7 @@ export const TravelerChat = () => {
       socket.off("receive_message");
       socket.disconnect();
     };
-  }, [senderId, receiverId]);
+  }, [senderId, receiverId,navigate]);
 
   const sendMessage = async () => {
     if (!message || !receiverId) return;
@@ -49,6 +57,10 @@ export const TravelerChat = () => {
     }
   };
 
+ 
+   
+  
+ 
   
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-400 to-purple-500">

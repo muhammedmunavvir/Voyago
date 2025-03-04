@@ -26,6 +26,7 @@ import { TravelerChat } from "./components/Chat/Travelersmessage";
 import { BookingPage } from "./booking/Bookingform";
 import { Bookingsummary } from "./booking/Bookingsummary";
 import { RazorpayCheckoutPage } from "./booking/Razorpaycheckoutflow";
+import { ScratchReward } from "./pages/Scratchcard";
 // import ProfileUpload from "./components/upload/Profileupload";
 
 
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/bookingpage" element={<BookingPage />} />
         <Route path="/razorpaycheckoutflow" element={<RazorpayCheckoutPage />} />
         <Route path="/bookingsummary" element={<Bookingsummary />} />
+        <Route path="/ScratchReward" element={<ScratchReward />} />
         {/* packager module */}
         <Route path="/packager/packagerset-up" element={<PackagerSetup />} />
 

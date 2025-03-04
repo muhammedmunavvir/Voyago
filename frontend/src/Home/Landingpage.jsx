@@ -9,7 +9,7 @@ const ImageSlider = () => {
       url: "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&w=1600",
       alt: "Beautiful Mountain View",
     },
-    {
+    { 
       url: "https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg",
       alt: "Tropical Island Beach",
     },

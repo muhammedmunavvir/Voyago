@@ -7,7 +7,7 @@ import { fetchdshboarddata } from "../../redux/reduxslices/dashboardslice";
 
 export const PackagerDashboard = () => {
  
-  const {packages,bookings,status,error}=useSelector((state)=>state.dashboard)
+  const {packages,bookings,status,error }=useSelector((state)=>state.dashboard)
   console.log("packages :",packages)
 console.log("bookings  :",bookings)
   const dispatch=useDispatch()

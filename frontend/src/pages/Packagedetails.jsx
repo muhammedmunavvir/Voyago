@@ -13,9 +13,18 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { PulsatingButton } from "../components/magicui/pulsating-button";
+import { useEffect, useState } from "react";
+
 
 export const Packagedetails = () => {
-  window.scrollTo(0, 0); // Scroll to top when page loads
+  // Scroll to top when page loads
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
+  
+  const [expandedDay, setExpandedDay] = useState(null);
 
   const Navigate = useNavigate();
   const { id } = useParams();
@@ -43,9 +52,10 @@ export const Packagedetails = () => {
   //it for messaging porpose
   const packagerId = item ? item.addedby : null;
   const packagername = item ? item.packagername : null;
+  const oncebooked = item ? item.oncebooked : null;
   const tomessagepage = () => {
     Navigate(`/travelers/chat`, {
-      state: { packagerId: packagerId, packagername },
+      state: { packagerId: packagerId, packagername ,oncebooked},
     });
   };
 
@@ -78,6 +88,13 @@ export const Packagedetails = () => {
       },
     });
   };
+  const toggleDay = (day) => {
+    if (expandedDay === day) {
+      setExpandedDay(null); // Collapse if already expanded
+    } else {
+      setExpandedDay(day); // Expand the clicked day
+    }
+  };
 
   return (
     <motion.div
@@ -94,7 +111,8 @@ export const Packagedetails = () => {
 
       {/* Package Images */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        {item.images?.map((img, index) => (
+        
+        {item.subimages?.map((img, index) => (
           <motion.img
             key={index}
             src={img}
@@ -186,15 +204,30 @@ export const Packagedetails = () => {
               className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               whileHover={{ scale: 1.02 }}
             >
-              <p className="text-lg font-semibold text-gray-800">
-                Day {dayPlan.day}: {dayPlan.activity}
-              </p>
-              <p className="text-gray-600">
-                <strong>Location:</strong> {dayPlan.location}
-              </p>
-              <p className="text-gray-600">
-                <strong>Meals:</strong> {dayPlan.includedMeals?.join(", ")}
-              </p>
+              {/* Accordion Header */}
+              <div
+                className="flex justify-between items-center cursor-pointer"
+                onClick={() => toggleDay(dayPlan.day)}
+              >
+                <p className="text-lg font-semibold text-gray-800">
+                  Day {dayPlan.day}: {dayPlan.activity}
+                </p>
+                <span className="text-xl">
+                  {expandedDay === dayPlan.day ? "▲" : "▼"}
+                </span>
+              </div>
+
+              {/* Accordion Content (Conditionally Rendered) */}
+              {expandedDay === dayPlan.day && (
+                <div className="mt-4">
+                  <p className="text-gray-600">
+                    <strong>Location:</strong> {dayPlan.location}
+                  </p>
+                  <p className="text-gray-600">
+                    <strong>Meals:</strong> {dayPlan.includedMeals?.join(", ")}
+                  </p>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
@@ -212,33 +245,35 @@ export const Packagedetails = () => {
         </ul>
       </div>
 
-      {/* Floating Inquiry Buttons */}
-      <div className="fixed bottom-6 right-6 flex flex-col space-y-4 z-50">
-        {/* WhatsApp Icon */}
-        <a
-          href="https://wa.me/your_number" // Replace with your number
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 flex items-center justify-center"
-        >
-          <FaWhatsapp className="text-2xl" />
-        </a>
+{/* Floating Inquiry Buttons */}
+<div className="fixed bottom-6 right-6 flex flex-col items-end space-y-4 z-50">
+  {/* WhatsApp Icon */}
+  <a
+    href="https://wa.me/your_number" // Replace with your actual WhatsApp number
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center space-x-3 bg-green-500 text-white px-5 py-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105"
+  >
+    <FaWhatsapp className="text-3xl" />
+    <span className="text-sm font-medium">Chat on WhatsApp</span>
+  </a>
 
-        {/* Message/Inquiry Icon */}
-        <button
-          onClick={() => tomessagepage()}
-          // onClick={() => alert('Open Inquiry Form')} // Replace with actual modal or chat function
-          className="bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"
-        >
-          <FaEnvelope className="text-2xl" />
-        </button>
-      </div>
-      <button
-        className="bg-yellow-500 rounded-xl p-3"
+  {/* Message/Inquiry Button */}
+  <button
+    onClick={() => tomessagepage()}
+    className="flex items-center space-x-3 bg-blue-500 text-white px-5 py-3 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-105"
+  >
+    <span className="text-sm font-medium"> chat with the agent</span>
+    <FaEnvelope className="text-3xl" />
+  </button>
+</div>
+
+      <PulsatingButton
+        className="bg-yellow-500 rounded-xl p-3 mt-5"
         onClick={() => tobooking()}
       >
         Book now
-      </button>
+      </PulsatingButton>
     </motion.div>
   );
 };
