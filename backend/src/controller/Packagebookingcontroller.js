@@ -69,6 +69,7 @@ export const createBookingPayment = async (req, res) => {
 
 //verify booking
 import crypto from "crypto";
+import { trasignmodel } from "../models/usermodel.js";
 
 export const verifyPayment = async (req, res) => {
   console.log("🛠 Received Request Body:", req.body);
@@ -101,6 +102,8 @@ export const verifyPayment = async (req, res) => {
       transactionId: razorpay_payment_id,
       status: "confirmed",
     });
+    const userId = req.userId;
+    await trasignmodel.updateOne({_id:userId},{$set:{oncebooked:"yes"}})
 
     return res.json({ success: true, message: "Payment verified, booking confirmed!" });
   } else {
@@ -108,3 +111,25 @@ export const verifyPayment = async (req, res) => {
   }
 };
 
+
+export const bookingSummary = async (req, res) => {
+  console.log(req.url)
+  try {
+    const userId = req.userId;
+    console.log(userId)
+
+    // Fetch the most recent booking for this user
+    const latestBooking = await Bookingmodel.findOne({ userId })
+      .sort({ createdAt: -1 }) // Sort by descending time
+      .limit(1); // Get only the most recent booking
+ 
+    if (!latestBooking) { 
+      return res.status(404).json({ message: "No bookings found" });
+    }
+
+    res.status(200).json({ success: true, data: latestBooking });
+  } catch (error) {
+    console.error("Error fetching latest booking:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};

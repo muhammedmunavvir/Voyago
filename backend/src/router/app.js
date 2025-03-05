@@ -12,7 +12,7 @@ import getallusersroute from "./users.js";
 router.use("/auth", authrouter);
 router.use("/upload", profileroute);
 router.use("/users", getallusersroute);
-
+ 
 router.use("/packages", PackagesRouter);
 
 //packagermodule
@@ -23,5 +23,7 @@ router.use("/chat", messageRouter);
 
 router.use("/booking", jwtverification, packagebookingroute);
 router.use("/payment", jwtverification, packagebookingroute);
+router.use("/summary", jwtverification, packagebookingroute);
+
 
 export default router;

@@ -10,7 +10,9 @@ const travelerSchema = new mongoose.Schema({
   role: { type: String, required: false, default: "traveler" },
   status: { type: String, required: false },
   profilepic:{type:String,required:false},
-  status:{type:String,required:false,default:"active"}
+  status:{type:String,required:false,default:"active"},
+  oncebooked:{type:String,required:false,default:"no"}
+  
 
 }); 
 

@@ -1,8 +1,9 @@
 import express from "express"
-import { createBookingPayment, verifyPayment,  } from "../controller/Packagebookingcontroller.js"
+import { bookingSummary, createBookingPayment, verifyPayment,  } from "../controller/Packagebookingcontroller.js"
 const packagebookingroute=express.Router()
 
 packagebookingroute.post("/packagebooking",createBookingPayment)
 packagebookingroute.post("/verifypayment",verifyPayment)
-
-export default packagebookingroute
+packagebookingroute.get("/bookingsummary",bookingSummary)
+ 
+export default packagebookingroute 
