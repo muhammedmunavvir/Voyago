@@ -27,6 +27,7 @@ import { BookingPage } from "./booking/Bookingform";
 import { Bookingsummary } from "./booking/Bookingsummary";
 import { RazorpayCheckoutPage } from "./booking/Razorpaycheckoutflow";
 import { ScratchReward } from "./pages/Scratchcard";
+import { EditPackage } from "./components/Packager/Updatepackage";
 // import ProfileUpload from "./components/upload/Profileupload";
 
 
@@ -63,6 +64,7 @@ const App = () => {
         <Route path="/packager" element={<PackagerHome />}>
           <Route path="packagerdashboard" element={<PackagerDashboard />} />
           <Route path="addnewpackage" element={<AddNewPackage />} />
+          <Route path="editpackage/:id" element={<EditPackage />} />
           <Route path="managepackage" element={<ManagePackages />} />
           <Route path="/packager/bookings" element={<Bookings />} />
           <Route

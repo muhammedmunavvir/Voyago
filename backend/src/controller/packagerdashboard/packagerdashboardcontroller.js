@@ -10,6 +10,7 @@ export const getdshboarddetails=async(req,res)=>{
 try{
     const packages=await packagemodel.find({addedby:id})
     const bookings=await Bookingmodel.find({providerId:id})
+    const totalrevenue=await Bookingmodel.find({providerId:id})
     return res.status(201).json({status:"success",message:"get total packages of specific user",packages:packages,bookings:bookings})
 }catch(error){
 console.log(error)

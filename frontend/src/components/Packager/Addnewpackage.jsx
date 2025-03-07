@@ -2,6 +2,7 @@ import axios from "axios";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../../conf/APiconfi";
+import toast from "react-hot-toast";
 
 export const AddNewPackage = () => {
   const navigate = useNavigate();
@@ -32,6 +33,8 @@ export const AddNewPackage = () => {
   const addedby=localStorage.getItem("userid")
   const packagername=localStorage.getItem("ownername")
 
+  
+
   console.log(addedby)
  
   const onFormSubmit = async (data) => {
@@ -39,6 +42,8 @@ export const AddNewPackage = () => {
       const requestData = { ...data, addedby ,packagername};
       const response = await axios.post(`${API_URL}/packager/addnewpackage`, requestData );
       console.log("Package Added:", response.data);
+      toast.success("package added successfully")
+      data=""
       // navigate("/dashboard");  
     } catch (error) {
       console.error("Error adding package:", error); 

@@ -104,6 +104,7 @@ export const verifyPayment = async (req, res) => {
     });
     const userId = req.userId;
     await trasignmodel.updateOne({_id:userId},{$set:{oncebooked:"yes"}})
+    
 
     return res.json({ success: true, message: "Payment verified, booking confirmed!" });
   } else {
@@ -128,6 +129,7 @@ export const bookingSummary = async (req, res) => {
     }
 
     res.status(200).json({ success: true, data: latestBooking });
+    console.log(latestBooking)
   } catch (error) {
     console.error("Error fetching latest booking:", error);
     res.status(500).json({ success: false, message: "Server Error" });

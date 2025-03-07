@@ -3,6 +3,7 @@ import { API_URL } from "../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { ThreeDot } from "react-loading-indicators";
+import Footer from "../Home/Footer";
 
 export const Allpackages = () => {
   const navigate = useNavigate();
@@ -48,7 +49,9 @@ export const Allpackages = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
+    <div className="flex flex-col min-h-screen">
+    {/* Main Content Wrapper */}
+    <div className="flex-grow max-w-7xl mx-auto px-6 py-12">
       <h1 className="text-4xl font-bold text-center mb-10 text-gray-800">
         Discover Amazing Packages
       </h1>
@@ -73,9 +76,7 @@ export const Allpackages = () => {
                 {obj.description}
               </p>
               <div className="mt-4 flex justify-between items-center">
-                <span className="text-xl font-bold text-green-600">$
-                  {obj.price}
-                </span>
+                <span className="text-xl font-bold text-green-600">$ {obj.price}</span>
                 <button className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-700 transition-all">
                   View Details
                 </button>
@@ -85,5 +86,9 @@ export const Allpackages = () => {
         ))}
       </div>
     </div>
-  );
+
+    
+    <Footer />
+  </div>
+);
 };

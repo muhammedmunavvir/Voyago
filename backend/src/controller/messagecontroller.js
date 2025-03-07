@@ -112,7 +112,7 @@ export const getUserSingleChat = async (req, res) => {
   const { receiverId } = req.query;
   console.log("ndfas ", req.params);
   console.log("ndfas ", req.query);
-
+ 
   try {
     // Fetch messages between the two users
     const messages = await chatmodel

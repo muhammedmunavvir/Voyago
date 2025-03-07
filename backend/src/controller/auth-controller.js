@@ -33,8 +33,8 @@ export const travlersignupcontroller = async (req, res) => {
       email,
       phonenumber,
       password: hashedpassword,
-      profilepic:"",
-      status:"active"
+      profilepic: "",
+      status: "active",
     });
 
     return res.status(200).json({
@@ -91,8 +91,8 @@ export const packagersignupcontroller = async (req, res) => {
       licenseNumber,
       address,
       onceLogined: "notLogin",
-      profilepic:"",
-      status:"active"
+      profilepic: "",
+      status: "active",
     });
 
     return res
@@ -150,14 +150,15 @@ export const travlerlogincontroller = async (req, res) => {
       secure: true,
       sameSite: "None",
     });
- 
+
+    
     return res
       .status(200)
       .json({ status: "success", message: "login successfully", data: user });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: "fail", message: "server error" });
-  } 
+  }
 };
 
 //logout controller

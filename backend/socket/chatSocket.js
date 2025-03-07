@@ -37,13 +37,13 @@ export const chatSocket = (io) => {
 
       // 📡 Forward Message if Receiver is Online
       const receiverSocketId = onlineUsers.get(data.receiverId);
-      console.log("Receiver Socket ID:", receiverSocketId);
-      console.log("Message Data:", messageData);
 
       if (receiverSocketId) {
         io.to(receiverSocketId).emit("receive_message", messageData);
       }
     });
+
+   
 
     // 🚪 Handle User Disconnection
     socket.on("disconnect", () => {
@@ -57,3 +57,14 @@ export const chatSocket = (io) => {
     });
   });
 };
+
+
+// / ✅ Function to Send Payment Notification (Now Accessible Globally)
+export const sendPaymentNotification = (io, packagerId, message) => {
+  if (io && connectedPackagers.has(packagerId)) {
+    const socketId = connectedPackagers.get(packagerId);
+    io.to(socketId).emit("paymentNotification", { message });
+    console.log(`📢 Sent payment notification to Packager ${packagerId}`);
+  }
+};
+

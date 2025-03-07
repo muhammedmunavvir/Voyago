@@ -7,6 +7,8 @@ import { Hiddengems } from "./Hiddengems";
 import ImageSlider from "./Landingpage";
 import { MarqueeDemohorizently } from "../pages/MarqueeeUI";
 import { Heropage } from "./Heropage";
+import Footer from "./Footer";
+
 
 
 export const Homepage = () => {
@@ -18,6 +20,7 @@ export const Homepage = () => {
       <Dealsyou/>
       <MarqueeDemohorizently/>
       <Hiddengems/> 
+      <Footer/>
       
      
     

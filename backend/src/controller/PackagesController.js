@@ -17,7 +17,8 @@ export const PackagesController = async (req, res) => {
 
 export const fetchpackagesbyid = async (req, res) => {
   const { id } = req.params;
-
+  console.log(req.url,"package getting buy id")
+ 
   try {
     const item = await packagemodel.findById({ _id: id });
 

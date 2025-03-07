@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
@@ -11,8 +11,10 @@ export const Navbar = () => {
   const ownername = localStorage.getItem("ownername");
 
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // Mobile menu
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Sign-up dropdown
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const profileDropdownRef = useRef(null);
 
   const handleLogout = async () => {
     const notify = toast.loading("Logging out...");
@@ -25,24 +27,37 @@ export const Navbar = () => {
     }, 2000);
   };
 
+  // Set profile pic
+  const [profilephoto, setProfilephoto] = useState({});
+  useEffect(() => {
+    fetchphoto();
+  }, []);
 
-  //setprofilepic
-  const [profilephoto,setProfilephoto]=useState({})
-  useEffect(()=>{
-    fetchphoto()
-  },[])
-  const userId=localStorage.getItem("userid")
-  const fetchphoto=async()=>{
-    const res=await axios.get(`${API_URL}/users/travelers/${userId}`)
-    setProfilephoto(res.data.data)
-  
-  }
+  const userId = localStorage.getItem("userid");
+  const fetchphoto = async () => {
+    const res = await axios.get(`${API_URL}/users/travelers/${userId}`);
+    setProfilephoto(res.data.data);
+  };
 
- 
+  // Close the dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
+        setProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="bg-slate-700 text-white relative">
-      
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <Toaster position="top-right" />
 
@@ -51,7 +66,6 @@ export const Navbar = () => {
           <img
             className="w-10 h-10 rounded-full"
             src="https://res.cloudinary.com/duj6ublev/image/upload/v1739270875/Screenshot_2025-02-11_160957_w6ym6q.png"
-
             alt="Voyago Logo"
           />
           <span className="text-1xl font-bold">Voyago</span>
@@ -83,16 +97,16 @@ export const Navbar = () => {
 
         {/* Authentication Section */}
         <div className="relative hidden md:flex items-center space-x-4">
-          {username||ownername ? (
+          {username || ownername ? (
             // Logged-in state
-            <div className="relative">
+            <div className="relative" ref={profileDropdownRef}>
               <button
                 className="p-1 rounded-full hover:bg-red-600 transition-all duration-300"
                 onClick={() => setProfileDropdownOpen(!isProfileDropdownOpen)}
               >
                 <img
                   className="w-10 h-10 rounded-full object-cover"
-                  src={profilephoto?profilephoto.profilepic:null}
+                  src={profilephoto ? profilephoto.profilepic : null}
                   alt="user profile"
                   width="40px"
                 />
@@ -132,7 +146,6 @@ export const Navbar = () => {
               )}
             </div>
           ) : (
-            
             <>
               {/* Sign Up Section */}
               <div className="relative">
@@ -213,10 +226,7 @@ export const Navbar = () => {
                 Logout
               </button>
             ) : (
-              <NavLink
-                to="/login"
-                className="block px-4 py-2 hover:bg-gray-700"
-              >
+              <NavLink to="/login" className="block px-4 py-2 hover:bg-gray-700">
                 Login
               </NavLink>
             )}

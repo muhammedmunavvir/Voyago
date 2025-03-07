@@ -17,11 +17,14 @@ export const Bookings = () => {
   }
 
   // Filter bookings based on search & status
-  const filteredBookings = bookings.filter(
+  const filteredBookings = [...bookings]
+  .sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate)) // Sort latest first
+  .filter(
     (booking) =>
       booking.name.toLowerCase().includes(search.toLowerCase()) &&
       (filterStatus === "all" || booking.status === filterStatus)
   );
+
 
   // Function to toggle accordion details
   const toggleBookingDetails = (bookingId) => {

@@ -17,7 +17,7 @@ export const PackagerChat = () => {
     }
 
     socket.on("receive_message", (newMessage) => {
-      console.log("📩 New message received:", newMessage);
+      console.log("New message received:", newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
@@ -34,7 +34,7 @@ export const PackagerChat = () => {
       );
       return res.data.data;
     } catch (error) {
-      console.error("⚠️ Error fetching conversations:", error);
+      console.error(" Error fetching conversations:", error);
       return [];
     }
   };
@@ -53,7 +53,7 @@ export const PackagerChat = () => {
         setMessages(res.data?.messages)
         return res.data.messages;
       } catch (error) {
-        console.error("⚠️ Error fetching conversations:", error);
+        console.error(" Error fetching conversations:", error);
         return [];
       }
     };
@@ -68,7 +68,7 @@ export const PackagerChat = () => {
       );
       setMessages(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.error("⚠️ Error fetching messages:", error);
+      console.error(" Error fetching messages:", error);
       setMessages([]);
     }
   };
@@ -90,7 +90,7 @@ export const PackagerChat = () => {
       setMessages((prevMessages) => [...prevMessages, messageTosend]);
       setMessage("");
     } catch (error) {
-      console.error("❌ Error sending message:", error);
+      console.error(" Error sending message:", error);
     }
   };
 

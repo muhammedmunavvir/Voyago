@@ -1,18 +1,23 @@
 import axios from "axios";
-import {  useParams } from "react-router-dom";
-import { API_URL } from "../../conf/APiconfi"
+import { useParams } from "react-router-dom";
+import { API_URL } from "../../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
 import { ThreeDot } from "react-loading-indicators";
-import { FaStar, FaMapMarkerAlt, FaBed, FaUtensils, FaBus, } from "react-icons/fa";
+import {
+  FaStar,
+  FaMapMarkerAlt,
+  FaBed,
+  FaUtensils,
+  FaBus,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
 
 export const Packagedetailspageofprovider = () => {
-
   const { id } = useParams();
 
   const fetchbyid = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const res = await axios.get(`${API_URL}/packages/singlepackage/${id}`);
       return res.data.data;
     } catch (error) {
@@ -21,7 +26,11 @@ export const Packagedetailspageofprovider = () => {
     }
   };
 
-  const { data: item, isError, isLoading } = useQuery({
+  const {
+    data: item,
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: ["fetchbyid", id],
     queryFn: fetchbyid,
   });
@@ -44,8 +53,6 @@ export const Packagedetailspageofprovider = () => {
     );
   }
 
- 
- 
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -76,27 +83,44 @@ export const Packagedetailspageofprovider = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-xl shadow-lg mb-12">
         <div className="flex items-center space-x-4">
           <FaMapMarkerAlt className="text-2xl text-blue-600" />
-          <p><strong className="text-gray-700">Destination:</strong> {item.destination}</p>
+          <p>
+            <strong className="text-gray-700">Destination:</strong>{" "}
+            {item.destination}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaStar className="text-2xl text-yellow-500" />
-          <p><strong className="text-gray-700">Duration:</strong> {item.duration}</p>
+          <p>
+            <strong className="text-gray-700">Duration:</strong> {item.duration}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaBus className="text-2xl text-green-600" />
-          <p><strong className="text-gray-700">Transport:</strong> {item.transport?.type}</p>
+          <p>
+            <strong className="text-gray-700">Transport:</strong>{" "}
+            {item.transport?.type}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaBed className="text-2xl text-purple-600" />
-          <p><strong className="text-gray-700">Accommodation:</strong> {item.accommodation?.hotelName}</p>
+          <p>
+            <strong className="text-gray-700">Accommodation:</strong>{" "}
+            {item.accommodation?.hotelName}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaUtensils className="text-2xl text-red-600" />
-          <p><strong className="text-gray-700">Meals Included:</strong> {item.accommodation?.includedMeals.join(", ")}</p>
+          <p>
+            <strong className="text-gray-700">Meals Included:</strong>{" "}
+            {item.accommodation?.includedMeals.join(", ")}
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <FaStar className="text-2xl text-yellow-500" />
-          <p><strong className="text-gray-700">Price:</strong> ₹{item.price} {item.currency}</p>
+          <p>
+            <strong className="text-gray-700">Price:</strong> ₹{item.price}{" "}
+            {item.currency}
+          </p>
         </div>
       </div>
 
@@ -136,9 +160,15 @@ export const Packagedetailspageofprovider = () => {
               className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               whileHover={{ scale: 1.02 }}
             >
-              <p className="text-lg font-semibold text-gray-800">Day {dayPlan.day}: {dayPlan.activity}</p>
-              <p className="text-gray-600"><strong>Location:</strong> {dayPlan.location}</p>
-              <p className="text-gray-600"><strong>Meals:</strong> {dayPlan.includedMeals?.join(", ")}</p>
+              <p className="text-lg font-semibold text-gray-800">
+                Day {dayPlan.day}: {dayPlan.activity}
+              </p>
+              <p className="text-gray-600">
+                <strong>Location:</strong> {dayPlan.location}
+              </p>
+              <p className="text-gray-600">
+                <strong>Meals:</strong> {dayPlan.includedMeals?.join(", ")}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -146,15 +176,15 @@ export const Packagedetailspageofprovider = () => {
 
       {/* Highlights */}
       <div className="bg-yellow-50 p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-yellow-700 mb-6">Tour Highlights</h2>
+        <h2 className="text-2xl font-bold text-yellow-700 mb-6">
+          Tour Highlights
+        </h2>
         <ul className="list-disc pl-6 space-y-2 text-gray-700">
           {item.highlights?.map((highlight, index) => (
             <li key={index}>{highlight}</li>
           ))}
         </ul>
       </div>
-
-    
     </motion.div>
   );
 };
