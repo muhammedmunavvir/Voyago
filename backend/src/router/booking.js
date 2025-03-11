@@ -6,4 +6,4 @@ packagebookingroute.post("/packagebooking",createBookingPayment)
 packagebookingroute.post("/verifypayment",verifyPayment)
 packagebookingroute.get("/bookingsummary",bookingSummary)
  
-export default packagebookingroute 
+export default packagebookingroute  
