@@ -8,7 +8,7 @@ const itinerarySchema = new mongoose.Schema({
 
 const packageSchema = new mongoose.Schema({
   packagername:{type:String,required:true}, 
-  addedby:{type:String,required:true}, 
+  addedby:{type:String,required:true},  
   title: { type: String, required: true },
   description: { type: String, required: true },
   destination: { type: String, required: true },
