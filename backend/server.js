@@ -9,7 +9,7 @@ import { Server } from "socket.io";
 import http from "http";
 import { chatSocket } from "./socket/chatSocket.js";
 const app = express();
-dotenv.config();
+dotenv.config(); 
 app.use(cookieParser());
 app.use(cors({ origin: "https://voyago-e49eujdtq-muhammed-munavvirs-projects.vercel.app", credentials: true }));
 
@@ -18,7 +18,7 @@ app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://voyago-e49eujdtq-muhammed-munavvirs-projects.vercel.app",
     methods: ["GET", "POST"],
   },
 });
