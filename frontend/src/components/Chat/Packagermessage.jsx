@@ -32,6 +32,8 @@ export const PackagerChat = () => {
       const res = await axios.get(
         `${API_URL}/chat/message/getconversations/${senderId}`
       );
+      console.log("ddd", res.data.data);
+      
       return res.data.data;
     } catch (error) {
       console.error(" Error fetching conversations:", error);
@@ -93,6 +95,7 @@ export const PackagerChat = () => {
       console.error(" Error sending message:", error);
     }
   };
+console.log(conversations);
 
   return (
     <div className="flex h-screen">
@@ -111,7 +114,7 @@ export const PackagerChat = () => {
               }`}
               onClick={() => selectUser(conversation._id)}
             >
-              <img src={conversation.profilepic} alt="user profile" />
+              <img src={conversation?.profilepic} alt="user profile" />
              { console.log(conversation)}
               {  conversation.username || `User: ${conversation._id}`}
             </div>
@@ -124,7 +127,7 @@ export const PackagerChat = () => {
       <div className="w-2/3 p-4 flex flex-col">
         {selectedUser ? (
           <>
-            <h2 className="text-xl font-bold mb-2">Chat with {selectedUser}</h2>
+            <h2 className="text-xl font-bold mb-2"> {selectedUser.username}</h2>
             <div className="h-80 p-3 bg-gray-200 overflow-y-auto rounded flex flex-col">
               {messages?.map((msg, index) => (
                 <div

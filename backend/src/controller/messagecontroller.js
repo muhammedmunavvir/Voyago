@@ -1,4 +1,5 @@
 import { chatmodel } from "../models/Chatschema.js";
+import { packagermodel, trasignmodel } from "../models/usermodel.js";
 
 export const saveMessage = async (messageData) => {
   try {
@@ -96,11 +97,15 @@ export const selectConversation = async (req, res) => {
         },
       },
     ]);
-
     // If no conversations found, return empty array
     const usersList = conversations.length > 0 ? conversations[0].users : [];
-
-    res.status(200).json({ data: usersList });
+    const usersWithProfilePics = await packagermodel.find(
+      { _id: { $in: usersList } },
+      "name profilePic"
+    );
+        console.log("profile ", getProfilepic);
+    
+    res.status(200).json({ data: {usersList, usersWithProfilePics} });
   } catch (error) {
     console.error("Error fetching conversations:", error);
     res.status(500).json({ error: "Internal server error" });

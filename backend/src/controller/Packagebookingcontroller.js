@@ -72,11 +72,11 @@ import crypto from "crypto";
 import { trasignmodel } from "../models/usermodel.js";
 
 export const verifyPayment = async (req, res) => {
-  console.log("🛠 Received Request Body:", req.body);
+  console.log("      Received Request Body:", req.body);
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, transactionId } = req.body;
 
   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !transactionId) {
-    console.log("❌ Missing Data:", {
+    console.log(" Missing Data:", {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
@@ -91,8 +91,8 @@ export const verifyPayment = async (req, res) => {
     .update(body)
     .digest("hex");
     console.log("Using Razorpay Secret:", process.env.KEY_SECRET);
-    console.log("🔑 Expected Signature:", expectedSignature);
-  console.log("🔑 Received Signature:", razorpay_signature);
+    console.log(" Expected Signature:", expectedSignature);
+  console.log(" Received Signature:", razorpay_signature);
 
 
   if (expectedSignature === razorpay_signature) {
