@@ -5,7 +5,7 @@ import { API_URL } from "../../conf/APiconfi";
 import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://localhost:5173";
+axios.defaults.baseURL = "https://voyago-e49eujdtq-muhammed-munavvirs-projects.vercel.app";
 
 export const Login = () => {
   const nav = useNavigate();

@@ -106,6 +106,8 @@ export const packagersignupcontroller = async (req, res) => {
 
 // Traveler Login
 export const travlerlogincontroller = async (req, res) => {
+  console.log(req.body)
+  console.log(req.url)
   try {
     const { error } = joiloginUser.validate(req.body);
     if (error) {
