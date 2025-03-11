@@ -11,7 +11,7 @@ import { chatSocket } from "./socket/chatSocket.js";
 const app = express();
 dotenv.config();
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "https://voyago-e49eujdtq-muhammed-munavvirs-projects.vercel.app", credentials: true }));
 
 const server = http.createServer(app);
 app.use(express.json());
