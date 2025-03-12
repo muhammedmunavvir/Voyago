@@ -11,14 +11,14 @@ import { chatSocket } from "./socket/chatSocket.js";
 const app = express();
 dotenv.config();    
 app.use(cookieParser());
-app.use(cors({ origin: "https://voyago-e49eujdtq-muhammed-munavvirs-projects.vercel.app", credentials: true }));
+app.use(cors({ origin: "https://voyago-iota.vercel.app/", credentials: true }));
 
 const server = http.createServer(app);
 app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: "https://voyago-e49eujdtq-muhammed-munavvirs-projects.vercel.app",
+    origin: "https://voyago-iota.vercel.app/",
     methods: ["GET", "POST"],
   },
 });
