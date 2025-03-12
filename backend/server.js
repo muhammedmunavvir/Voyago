@@ -34,7 +34,7 @@ app.use("/api/v1", routes);
 
 chatSocket(io);
 
-const port = process.env.PORT_NUMBER;
+const port = process.env.PORT || 9297
 server.listen(port, () => {
-  console.log("port is running on 9297 ");
+  console.log("port is running on ",port);
 });
