@@ -58,13 +58,13 @@ const ImageSlider = () => {
         </p>
 
    {/* Search Bar */}
-<div className="bg-white text-gray-800 p-2 rounded-full flex items-center max-w-lg w-full mx-auto mt-5 shadow-lg flex-wrap">
+   <div className="bg-white text-gray-800 p-2 rounded-full flex items-center max-w-lg w-full mx-auto mt-5 shadow-lg flex-nowrap gap-2">
   <input
     type="text"
     placeholder="Search destinations..."
-    className="flex-grow p-2 rounded-l-full focus:outline-none min-w-0"
+    className="flex-grow p-2 rounded-l-full focus:outline-none min-w-0 text-sm"
   />
-  <button className="bg-red-500 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-blue-600 transition w-20 text-sm">
+  <button className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition w-16 sm:w-20 text-sm">
     Search
   </button>
 </div>
