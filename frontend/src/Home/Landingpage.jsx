@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ShimmerButton } from "../components/magicui/shimmer-button";
 import { NavLink } from "react-router-dom";
+
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -25,23 +26,18 @@ const ImageSlider = () => {
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
     }, 3000);
-
     return () => clearInterval(interval);
-  });
-
-  const searchingfunction=()=>{
-    e.target.value
-  }
+  }, []);
 
   return (
-    <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       {/* Image Slider */}
       <div
         className="absolute inset-0 w-full h-full flex transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {images.map((image, index) => (
-          <div key={index} className="min-w-full h-full relative">
+          <div key={index} className="w-full flex-shrink-0 h-full relative">
             <img
               src={image.url}
               alt={image.alt}
@@ -53,33 +49,33 @@ const ImageSlider = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="absolute z-10 text-center px-4 text-white">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+      <div className="absolute z-10 text-center px-4 text-white w-full">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">
           Discover Your Next Adventure
         </h1>
-        <p className="text-lg md:text-xl mb-6 max-w-2xl mx-auto">
-          Experience breathtaking destinations and create unforgettable
-          memories.
+        <p className="text-base sm:text-lg md:text-xl mb-6 max-w-2xl mx-auto">
+          Experience breathtaking destinations and create unforgettable memories.
         </p>
 
-        {/* Search Bar */}
+   {/* Search Bar */}
+<div className="bg-white text-gray-800 p-2 rounded-full flex items-center max-w-lg w-full mx-auto mt-5 shadow-lg flex-wrap">
+  <input
+    type="text"
+    placeholder="Search destinations..."
+    className="flex-grow p-2 rounded-l-full focus:outline-none min-w-0"
+  />
+  <button className="bg-red-500 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-blue-600 transition w-20 text-sm">
+    Search
+  </button>
+</div>
 
-        <div className="bg-white text-gray-800 p-2 rounded-full flex items-center max-w-lg mx-auto mt-5 shadow-lg">
-          <input
-            type="text"
-            placeholder="Search destinations..."
-            className="flex-grow p-2 rounded-l-full focus:outline-none"
-            onChange={()=>searchingfunction(e)}
-          />
-          <button className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition">
-            Search
-          </button>
-        </div>
+
+        {/* Start Exploring Button */}
         <NavLink to="/allpackages">
-  <ShimmerButton className="bg-white text-gray-900 ml-96 mt-2 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
-    Start Exploring
-  </ShimmerButton>
-</NavLink>
+          <ShimmerButton className="bg-white text-gray-900 mx-auto mt-4 px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-300 shadow-lg">
+            Start Exploring
+          </ShimmerButton>
+        </NavLink>
       </div>
 
       {/* Navigation Dots */}
