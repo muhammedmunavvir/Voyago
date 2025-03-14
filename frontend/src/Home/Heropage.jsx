@@ -34,7 +34,7 @@ export const Heropage = () => {
   };
 
   return (
-    <section className="relative w-full h-[80vh] text-white flex items-center">
+    <section className="relative w-full min-h-[80vh] text-white flex items-center">
       {/* Background & Overlay */}
       <div className="absolute inset-0 w-full h-full bg-black bg-opacity-50"></div>
 

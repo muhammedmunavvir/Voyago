@@ -13,6 +13,7 @@ export const Dealsyou = () => {
     "col-span-2 row-span-3",
     "col-span-2  row-span-3",
     "col-span-4  row-span-3",
+    
   ]);
 
   const fetchPackages = async () => {
@@ -56,7 +57,7 @@ export const Dealsyou = () => {
       </div>
 
       <div className="flex h-screen w-full flex-col items-center justify-center rounded-lg dark:bg-slate-900">
-        <div className="grid h-2/3 w-full grid-cols-11 grid-rows-6 gap-4 px-16">
+        <div className="grid h-2/3 w-full md:grid-cols-11 grid-rows-6 gap-4 px-16">
           {packages.map((data, index) => (
             <div
               key={index}
