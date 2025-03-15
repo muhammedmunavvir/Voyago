@@ -24,6 +24,6 @@ router.use("/chat", messageRouter);
 router.use("/booking", jwtverification, packagebookingroute);
 router.use("/payment", jwtverification, packagebookingroute);
 router.use("/summary", jwtverification, packagebookingroute);
-
+ 
 
 export default router;

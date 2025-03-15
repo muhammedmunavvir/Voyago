@@ -39,7 +39,7 @@ export const Navbar = () => {
 
   // Set profile pic
   const [profilephoto, setProfilephoto] = useState({});
-  
+
   useEffect(() => {
     if (userId) {
       fetchphoto();
@@ -62,11 +62,11 @@ export const Navbar = () => {
       // Desktop profile dropdown
       if (
         profileDropdownRef.current &&
-        !profileDropdownRef.current.contains(event.target) 
+        !profileDropdownRef.current.contains(event.target)
       ) {
         setProfileDropdownOpen(false);
       }
-      
+
       // Sign up dropdown
       if (
         signupDropdownRef.current &&
@@ -106,6 +106,19 @@ export const Navbar = () => {
     setIsMobileProfileOpen(false);
   };
 
+  
+ 
+
+ 
+const tobookings = () => {
+  
+  navigate(`/userbookings/${userId}`);
+
+  setProfileDropdownOpen(false);
+};
+
+  
+
   return (
     <nav className="bg-slate-700 text-white relative">
       <div className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -124,22 +137,34 @@ export const Navbar = () => {
         {/* Navigation Links - Desktop */}
         <ul className="hidden md:flex space-x-4 lg:space-x-6 text-sm lg:text-base">
           <li>
-            <NavLink to="/" className="hover:text-gray-300 transition duration-200">
+            <NavLink
+              to="/"
+              className="hover:text-gray-300 transition duration-200"
+            >
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/allpackages" className="hover:text-gray-300 transition duration-200">
+            <NavLink
+              to="/allpackages"
+              className="hover:text-gray-300 transition duration-200"
+            >
               Packages
             </NavLink>
           </li>
           <li>
-            <NavLink to="/aboutus" className="hover:text-gray-300 transition duration-200">
+            <NavLink
+              to="/aboutus"
+              className="hover:text-gray-300 transition duration-200"
+            >
               About
             </NavLink>
           </li>
           <li>
-            <NavLink to="/contactus" className="hover:text-gray-300 transition duration-200">
+            <NavLink
+              to="/contactus"
+              className="hover:text-gray-300 transition duration-200"
+            >
               Contact
             </NavLink>
           </li>
@@ -147,7 +172,7 @@ export const Navbar = () => {
 
         {/* Authentication Section - Desktop */}
         <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
-          {username || ownername ? (
+          {username || ownername  ? (
             // Logged-in state
             <div className="relative" ref={profileDropdownRef}>
               <button
@@ -183,13 +208,12 @@ export const Navbar = () => {
                   >
                     Settings
                   </NavLink>
-                  <NavLink
-                    to="/bookings"
+                  <button
                     className="block px-4 py-2 hover:bg-gray-100 transition duration-200"
-                    onClick={() => setProfileDropdownOpen(false)}
+                    onClick={tobookings}
                   >
                     Bookings
-                  </NavLink>
+                  </button>
                   <button
                     className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100 transition duration-200"
                     onClick={handleLogout}
@@ -243,9 +267,9 @@ export const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button 
+        <button
           ref={mobileToggleRef}
-          onClick={() => setIsOpen(!isOpen)} 
+          onClick={() => setIsOpen(!isOpen)}
           className="md:hidden p-1 rounded hover:bg-slate-600 transition duration-200"
           aria-label={isOpen ? "Close menu" : "Open menu"}
         >
@@ -255,14 +279,11 @@ export const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div 
-          ref={mobileMenuRef}
-          className="md:hidden bg-slate-800 text-white"
-        >
+        <div ref={mobileMenuRef} className="md:hidden bg-slate-800 text-white">
           <ul className="divide-y divide-slate-700">
             <li>
-              <NavLink 
-                to="/" 
+              <NavLink
+                to="/"
                 className="block px-4 py-3 hover:bg-slate-700 transition duration-200"
                 onClick={handleNavigation}
               >
@@ -270,8 +291,8 @@ export const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink 
-                to="/allpackages" 
+              <NavLink
+                to="/allpackages"
                 className="block px-4 py-3 hover:bg-slate-700 transition duration-200"
                 onClick={handleNavigation}
               >
@@ -279,8 +300,8 @@ export const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink 
-                to="/aboutus" 
+              <NavLink
+                to="/aboutus"
                 className="block px-4 py-3 hover:bg-slate-700 transition duration-200"
                 onClick={handleNavigation}
               >
@@ -288,15 +309,15 @@ export const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink 
-                to="/contactus" 
+              <NavLink
+                to="/contactus"
                 className="block px-4 py-3 hover:bg-slate-700 transition duration-200"
                 onClick={handleNavigation}
               >
                 Contact
               </NavLink>
             </li>
-            
+
             {/* Mobile Authentication Section */}
             {username || ownername ? (
               <li ref={mobileProfileDropdownRef}>
@@ -319,9 +340,13 @@ export const Navbar = () => {
                     )}
                     <span>{username || ownername}</span>
                   </span>
-                  <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isMobileProfileOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform duration-200 ${
+                      isMobileProfileOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
-                
+
                 {isMobileProfileOpen && (
                   <div className="bg-slate-900 pl-8 pr-4">
                     <NavLink
@@ -339,7 +364,7 @@ export const Navbar = () => {
                       Settings
                     </NavLink>
                     <NavLink
-                      to="/bookings"
+                      to={`/userbookings/${userId}`}
                       className="block py-3 hover:text-gray-300 transition duration-200"
                       onClick={handleNavigation}
                     >
@@ -377,9 +402,13 @@ export const Navbar = () => {
                     }}
                   >
                     <span>Sign Up</span>
-                    <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isMobileProfileOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 transition-transform duration-200 ${
+                        isMobileProfileOpen ? "rotate-180" : ""
+                      }`}
+                    />
                   </button>
-                  
+
                   {isMobileProfileOpen && (
                     <div className="bg-slate-900 pl-8 pr-4">
                       <NavLink

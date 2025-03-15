@@ -28,6 +28,7 @@ import { Bookingsummary } from "./booking/Bookingsummary";
 import { RazorpayCheckoutPage } from "./booking/Razorpaycheckoutflow";
 import { ScratchReward } from "./pages/Scratchcard";
 import { EditPackage } from "./components/Packager/Updatepackage";
+import { Userbookings } from "./pages/Userbookings";
 // import ProfileUpload from "./components/upload/Profileupload";
 
 
@@ -58,6 +59,7 @@ const App = () => {
         <Route path="/razorpaycheckoutflow" element={<RazorpayCheckoutPage />} />
         <Route path="/bookingsummary" element={<Bookingsummary />} />
         <Route path="/ScratchReward" element={<ScratchReward />} />
+        <Route path="/userbookings/:id" element={<Userbookings />} />
         {/* packager module */}
         <Route path="/packager/packagerset-up" element={<PackagerSetup />} />
 

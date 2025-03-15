@@ -4,17 +4,41 @@ import { config } from "dotenv";
 config();
 
 export const createBookingPayment = async (req, res) => {
-  console.log(req.url)
-  console.log(req.body)
+  console.log(req.url);
+  console.log(req.body);
   const userId = req.userId;
-  console.log(userId,"sdfghjkl")
-  const { packageId, packageName, providerId, providerName, travelDate, returnDate, numOfTravelers, totalCost, specialRequests, name, email, phoneNumber } = req.body;
+  console.log(userId, "sdfghjkl");
+  const {
+    packageId,
+    packageName,
+    providerId,
+    providerName,
+    travelDate,
+    returnDate,
+    numOfTravelers,
+    totalCost,
+    specialRequests,
+    name,
+    email,
+    phoneNumber,
+  } = req.body;
 
-  if (!packageId || !providerId || !travelDate || !numOfTravelers || !totalCost || !name || !email || !phoneNumber) {
-    return res.status(400).json({ success: false, message: "Missing required fields" });
+  if (
+    !packageId ||
+    !providerId ||
+    !travelDate ||
+    !numOfTravelers ||
+    !totalCost ||
+    !name ||
+    !email ||
+    !phoneNumber
+  ) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing required fields" });
   }
- 
-  try { 
+
+  try {
     const instance = new Razorpay({
       key_id: process.env.KEY_ID,
       key_secret: process.env.KEY_SECRET,
@@ -22,14 +46,16 @@ export const createBookingPayment = async (req, res) => {
 
     const options = {
       amount: totalCost * 100, // Convert to paise
-      currency: "INR", 
+      currency: "INR",
       receipt: `booking_${Date.now()}`,
     };
 
     const order = await instance.orders.create(options);
 
     if (!order) {
-      return res.status(500).json({ success: false, message: "Error creating Razorpay order" });
+      return res
+        .status(500)
+        .json({ success: false, message: "Error creating Razorpay order" });
     }
 
     // Save booking with "pending" status
@@ -60,12 +86,11 @@ export const createBookingPayment = async (req, res) => {
     });
   } catch (error) {
     console.error("Payment error:", error);
-    return res.status(500).json({ success: false, message: "Payment initiation failed", error });
+    return res
+      .status(500)
+      .json({ success: false, message: "Payment initiation failed", error });
   }
-  
 };
-
-
 
 //verify booking
 import crypto from "crypto";
@@ -73,65 +98,106 @@ import { trasignmodel } from "../models/usermodel.js";
 
 export const verifyPayment = async (req, res) => {
   console.log("      Received Request Body:", req.body);
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, transactionId } = req.body;
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature,
+    transactionId,
+  } = req.body;
 
-  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !transactionId) {
+  if (
+    !razorpay_order_id ||
+    !razorpay_payment_id ||
+    !razorpay_signature ||
+    !transactionId
+  ) {
     console.log(" Missing Data:", {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      transactionId
+      transactionId,
     });
-    return res.status(400).json({ success: false, message: "Missing payment details" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing payment details" });
   }
- 
+
   const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.KEY_SECRET) 
+    .createHmac("sha256", process.env.KEY_SECRET)
     .update(body)
     .digest("hex");
-    console.log("Using Razorpay Secret:", process.env.KEY_SECRET);
-    console.log(" Expected Signature:", expectedSignature);
+  console.log("Using Razorpay Secret:", process.env.KEY_SECRET);
+  console.log(" Expected Signature:", expectedSignature);
   console.log(" Received Signature:", razorpay_signature);
-
 
   if (expectedSignature === razorpay_signature) {
     // Update booking status to confirmed
-    await Bookingmodel.findOneAndUpdate({transactionId:transactionId}, {
-      paymentStatus: "paid",
-      transactionId: razorpay_payment_id,
-      status: "confirmed",
-    });
+    await Bookingmodel.findOneAndUpdate(
+      { transactionId: transactionId },
+      {
+        paymentStatus: "paid",
+        transactionId: razorpay_payment_id,
+        status: "confirmed",
+      }
+    );
     const userId = req.userId;
-    await trasignmodel.updateOne({_id:userId},{$set:{oncebooked:"yes"}})
-    
+    await trasignmodel.updateOne(
+      { _id: userId },
+      { $set: { oncebooked: "yes" } }
+    );
 
-    return res.json({ success: true, message: "Payment verified, booking confirmed!" });
+    return res.json({
+      success: true,
+      message: "Payment verified, booking confirmed!",
+    });
   } else {
-    return res.status(400).json({ success: false, message: "Payment verification failed!" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Payment verification failed!" });
   }
 };
 
-
+//this booking summay for the packager
 export const bookingSummary = async (req, res) => {
-  console.log(req.url)
   try {
     const userId = req.userId;
-    console.log(userId)
+    console.log(userId);
 
     // Fetch the most recent booking for this user
     const latestBooking = await Bookingmodel.findOne({ userId })
       .sort({ createdAt: -1 }) // Sort by descending time
       .limit(1); // Get only the most recent booking
- 
-    if (!latestBooking) { 
+
+    if (!latestBooking) {
       return res.status(404).json({ message: "No bookings found" });
     }
 
     res.status(200).json({ success: true, data: latestBooking });
-    console.log(latestBooking)
+    console.log(latestBooking);
   } catch (error) {
     console.error("Error fetching latest booking:", error);
     res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+//it for the travlers
+
+export const travelerbookings = async (req, res) => {
+  console.log(req.url, "iuygffg");
+  const { id } = req.params;
+  console.log(id, "fw_ghjk");
+
+  try {
+    const bookings = await Bookingmodel.find({ userId: id }); 
+
+    console.log(bookings);
+    res.status(201).json({
+      status: "success",
+      message: "travler all bookings",
+      data: bookings,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
