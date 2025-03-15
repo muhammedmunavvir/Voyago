@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../conf/APiconfi";
 import { useQuery } from "@tanstack/react-query";
 import { ThreeDot } from "react-loading-indicators";
-import { FaStar, FaMapMarkerAlt, FaBed, FaUtensils, FaBus, FaEnvelope } from "react-icons/fa";
+import { FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { PulsatingButton } from "../components/magicui/pulsating-button";
 import { useEffect, useState } from "react";
 import Footer from "../Home/Footer";
+import toast from "react-hot-toast";
 
 export const Packagedetails = () => {
   useEffect(() => {
@@ -41,6 +41,11 @@ export const Packagedetails = () => {
   };
 
   const toBooking = () => {
+    if(!id){
+      toast.error("please login")
+      navigate("/login")
+      return
+    }
     navigate(`/bookingpage`, {
       state: {
         packagerId: item?.addedby,
