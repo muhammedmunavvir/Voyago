@@ -9,7 +9,7 @@ export const fetchuser = createAsyncThunk(
         if (!userid) throw new Error("User ID not found");
   
         const res = await axios.get(`${API_URL}/users/travelers/${userid}`);
-        console.log(res,"slice")
+        console.log(res,"user")
         return res.data.data;
       } catch (error) {
         console.error("Fetch user error:", error);

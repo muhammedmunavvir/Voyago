@@ -8,15 +8,21 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Footer from "../Home/Footer";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchuser } from "../redux/reduxslices/users";
 
 export const Packagedetails = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const [expandedDay, setExpandedDay] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [expandedDays, setExpandedDays] = useState(new Set());
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(fetchuser());
+  }, [dispatch]);
+
+  const user = useSelector((state) => state.users.user);
 
   const fetchById = async () => {
     try {
@@ -24,7 +30,7 @@ export const Packagedetails = () => {
       const res = await axios.get(`${API_URL}/packages/singlepackage/${id}`);
       return res.data.data;
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching package:", error);
       throw error;
     }
   };
@@ -41,10 +47,10 @@ export const Packagedetails = () => {
   };
 
   const toBooking = () => {
-    if(!id){
-      toast.error("please login")
-      navigate("/login")
-      return
+    if (!user) {
+      toast.error("Please login to book a package");
+      navigate("/login");
+      return;
     }
     navigate(`/bookingpage`, {
       state: {
@@ -58,7 +64,11 @@ export const Packagedetails = () => {
   };
 
   const toggleDay = (day) => {
-    setExpandedDay(expandedDay === day ? null : day);
+    setExpandedDays((prev) => {
+      const newSet = new Set(prev);
+      newSet.has(day) ? newSet.delete(day) : newSet.add(day);
+      return newSet;
+    });
   };
 
   if (isLoading) {
@@ -76,6 +86,7 @@ export const Packagedetails = () => {
       </div>
     );
   }
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-cyan-50 to-indigo-100">
       <motion.div
@@ -84,87 +95,49 @@ export const Packagedetails = () => {
         transition={{ duration: 0.5 }}
         className="flex-grow max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-12"
       >
-        {/* Left Side - Images */}
         <div className="space-y-4">
-          <img src={item.coverimage} className="w-full h-[400px] object-cover rounded-xl shadow-xl border-4 border-blue-500" />
+          <img src={item.coverimage} loading="lazy" className="w-full h-[400px] object-cover rounded-xl shadow-xl border-4 border-blue-500" />
           <div className="grid grid-cols-3 gap-2">
             {item.subimages?.map((img, index) => (
               <motion.img
                 key={index}
                 src={img}
+                loading="lazy"
                 className="w-full h-28 object-cover rounded-lg shadow-lg hover:scale-105 transition-transform"
               />
             ))}
           </div>
         </div>
-
-        {/* Right Side - Package Details */}
         <div className="p-6 bg-white rounded-xl shadow-xl border-l-4 border-blue-500 space-y-6">
           <h1 className="text-4xl font-bold text-indigo-800">{item.title}</h1>
           <p className="text-gray-600">{item.description}</p>
-          <div className="space-y-3">
-            <p className="text-lg"><FaMapMarkerAlt className="inline text-blue-600" /> <strong>Destination:</strong> {item.destination}</p>
-            <p className="text-lg"><FaStar className="inline text-yellow-500" /> <strong>Duration:</strong> {item.duration}</p>
-          </div>
-          <button onClick={()=>toMessagePage()} className="w-full py-3 rounded-lg bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold shadow-lg hover:scale-105 transition-transform">Chat with Agent</button>
-          <button onClick={()=>toBooking(item._id)} className="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold shadow-lg hover:scale-105 transition-transform">Book Now</button>
+          <button onClick={toMessagePage} className="w-full py-3 rounded-lg bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold shadow-lg hover:scale-105 transition-transform">Chat with Agent</button>
+          <button onClick={toBooking} className="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold shadow-lg hover:scale-105 transition-transform">Book Now</button>
         </div>
       </motion.div>
-      
-      {/* Inclusion & Exclusion Section */}
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-green-200 p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-bold text-green-800 border-b-2 border-green-500 pb-2">✅ Inclusions</h3>
-            <ul className="list-disc pl-5 text-green-700 mt-2 space-y-2">
-              {item?.inclusions?.map((inc, index) => (
-                <li key={index}>{inc}</li>
-              ))}
-            </ul>
-          </div>
-          
-
-          <div className="bg-red-200 p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-bold text-red-800 border-b-2 border-red-500 pb-2">❌ Exclusions</h3>
-            <ul className="list-disc pl-5 text-red-700 mt-2 space-y-2">
-              {item?.exclusions?.map((exc, index) => (
-                <li key={index}>{exc}</li>
-              ))}
-            </ul>
-          </div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">📅 Itinerary</h2>
+        <div className="space-y-4">
+          {item.itinerary?.map((dayPlan, index) => (
+            <motion.div
+              key={index}
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-l-4 border-blue-400"
+              whileHover={{ scale: 1.02 }}
+            >
+              <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleDay(dayPlan.day)}>
+                <p className="text-lg font-semibold text-gray-800">Day {dayPlan.day}: {dayPlan.activity}</p>
+                <span className="text-xl">{expandedDays.has(dayPlan.day) ? "▲" : "▼"}</span>
+              </div>
+              {expandedDays.has(dayPlan.day) && (
+                <div className="mt-4 text-gray-600">
+                  <p><strong>📍 Location:</strong> {dayPlan.location}</p>
+                  <p><strong>🍽️ Meals:</strong> {dayPlan.includedMeals?.join(", ")}</p>
+                </div>
+              )}
+            </motion.div>
+          ))}
         </div>
       </div>
-      {/* Itinerary Section */}
-<div className="col-span-2 bg-gradient-to-r from-blue-50 to-indigo-100 p-8 rounded-xl shadow-lg">
-  <h2 className="text-3xl font-bold text-gray-900 mb-6">📅 Itinerary</h2>
-  <div className="space-y-4">
-    {item.itinerary?.map((dayPlan, index) => (
-      <motion.div
-        key={index}
-        className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-l-4 border-blue-400"
-        whileHover={{ scale: 1.02 }}
-      >
-        <div
-          className="flex justify-between items-center cursor-pointer"
-          onClick={() => toggleDay(dayPlan.day)}
-        >
-          <p className="text-lg font-semibold text-gray-800">
-            Day {dayPlan.day}: {dayPlan.activity}
-          </p>
-          <span className="text-xl">{expandedDay === dayPlan.day ? "▲" : "▼"}</span>
-        </div>
-        {expandedDay === dayPlan.day && (
-          <div className="mt-4 text-gray-600">
-            <p><strong>📍 Location:</strong> {dayPlan.location}</p>
-            <p><strong>🍽️ Meals:</strong> {dayPlan.includedMeals?.join(", ")}</p>
-          </div>
-        )}
-      </motion.div>
-    ))}
-  </div>
-</div>
-
-      
       <Footer />
     </div>
   );
